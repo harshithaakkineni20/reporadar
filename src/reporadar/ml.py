@@ -152,27 +152,40 @@ def build_training_pairs(
     max_pairs: int = 50_000,
     seed: int = 7,
 ) -> list[tuple[int, int]]:
-    """Build winner/loser pairs, preferably comparing repos inside the same time window."""
+    """Sample winner/loser pairs without materializing every possible comparison.
+
+    A single GH Archive window can contain 100k+ repositories. Building every repo pair is
+    quadratic and can get the process killed. Sampling keeps the training objective pairwise
+    while making the command laptop-friendly.
+    """
     groups: dict[str, list[int]] = {}
     for index, row in enumerate(rows):
         groups.setdefault(str(row.get("window_id") or "__all__"), []).append(index)
 
-    pairs: list[tuple[int, int]] = []
-    for indices in groups.values():
-        for left_pos, left_index in enumerate(indices):
-            left_growth = as_float(rows[left_index], "future_growth")
-            for right_index in indices[left_pos + 1 :]:
-                right_growth = as_float(rows[right_index], "future_growth")
-                if left_growth == right_growth:
-                    continue
-                if left_growth > right_growth:
-                    pairs.append((left_index, right_index))
-                else:
-                    pairs.append((right_index, left_index))
-
     rng = random.Random(seed)
+    pairs: list[tuple[int, int]] = []
+
+    group_items = [(window_id, indices) for window_id, indices in groups.items() if len(indices) > 1]
+    if not group_items:
+        return []
+
+    attempts = 0
+    max_attempts = max_pairs * 20
+    while len(pairs) < max_pairs and attempts < max_attempts:
+        attempts += 1
+        _, indices = rng.choice(group_items)
+        left_index, right_index = rng.sample(indices, 2)
+        left_growth = as_float(rows[left_index], "future_growth")
+        right_growth = as_float(rows[right_index], "future_growth")
+        if left_growth == right_growth:
+            continue
+        if left_growth > right_growth:
+            pairs.append((left_index, right_index))
+        else:
+            pairs.append((right_index, left_index))
+
     rng.shuffle(pairs)
-    return pairs[:max_pairs]
+    return pairs
 
 
 def pairwise_accuracy(rows: list[dict[str, Any]], model: PairwiseLinearRanker) -> float:
