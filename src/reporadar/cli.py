@@ -23,6 +23,7 @@ from reporadar.io import (
 )
 from reporadar.ml import PairwiseLinearRanker, pairwise_accuracy, train_pairwise_ranker
 from reporadar.ranking import ndcg_at_k, precision_at_k, rank_repositories, recall_at_k
+from reporadar.reporting import build_discovery_report, write_report
 
 
 def main() -> None:
@@ -145,6 +146,17 @@ def build_parser() -> argparse.ArgumentParser:
     discover_parser.add_argument("--max-noise", type=float)
     discover_parser.add_argument("--min-confidence", type=float, default=0.0)
     discover_parser.set_defaults(func=discover_command)
+
+    report_parser = subparsers.add_parser(
+        "report",
+        help="Generate a Markdown report from categorized discovery results.",
+    )
+    report_parser.add_argument("--input", type=Path, required=True)
+    report_parser.add_argument("--output", type=Path, default=Path("reports/discovery_report.md"))
+    report_parser.add_argument("--top", type=int, default=10)
+    report_parser.add_argument("--min-quality", type=float, default=5.0)
+    report_parser.add_argument("--max-noise", type=float, default=3.5)
+    report_parser.set_defaults(func=report_command)
 
     return parser
 
@@ -408,6 +420,22 @@ def print_repo_rows(rows: list[dict[str, str]]) -> None:
             f"quality={row.get('quality_score')}, noise={row.get('noise_score')}, "
             f"category={row.get('category')}, why={row.get('category_reason')}"
         )
+
+
+def report_command(args: argparse.Namespace) -> None:
+    rows = read_rows_csv(args.input)
+    if not rows:
+        raise SystemExit("No rows found.")
+
+    markdown = build_discovery_report(
+        rows,
+        source_name=str(args.input),
+        top=args.top,
+        min_quality=args.min_quality,
+        max_noise=args.max_noise,
+    )
+    write_report(markdown, args.output)
+    print(f"Wrote discovery report to {args.output}")
 
 
 def load_model(path: Path) -> PairwiseLinearRanker:

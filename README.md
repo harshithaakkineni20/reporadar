@@ -205,6 +205,17 @@ PYTHONPATH=src python3 -m reporadar discover \
   --max-noise 3.5
 ```
 
+Generate a Markdown experiment report:
+
+```bash
+PYTHONPATH=src python3 -m reporadar report \
+  --input outputs/discovery.csv \
+  --output reports/discovery_report.md \
+  --top 10 \
+  --min-quality 5 \
+  --max-noise 3.5
+```
+
 Current categories:
 
 - `ai_ml_data`
