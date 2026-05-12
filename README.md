@@ -17,7 +17,7 @@ GitHub has millions of repositories. By the time a project appears on every tren
 - release events
 - acceleration compared with recent activity
 
-The first version is intentionally small and runnable today. It uses GH Archive-style events, builds repo-level features, ranks repositories, and evaluates whether the ranking matched future growth.
+The first version is intentionally small and runnable today. It uses GH Archive-style events, builds repo-level features, trains a pairwise ranking model, and evaluates whether the ranking matched future growth.
 
 ## What You Can Demo
 
@@ -47,11 +47,44 @@ PYTHONPATH=src python3 -m reporadar rank \
   --output outputs/sample_rankings.csv
 ```
 
+Create rolling ML training rows:
+
+```bash
+PYTHONPATH=src python3 -m reporadar dataset \
+  --input data/sample/gh_events_sample.jsonl \
+  --output outputs/sample_training_rows.csv \
+  --observation-hours 8 \
+  --target-hours 6 \
+  --stride-hours 3
+```
+
+Train the pairwise ranking model:
+
+```bash
+PYTHONPATH=src python3 -m reporadar train \
+  --dataset outputs/sample_training_rows.csv \
+  --model outputs/sample_ranker.json
+```
+
+Rank with the trained model:
+
+```bash
+PYTHONPATH=src python3 -m reporadar rank \
+  --input data/sample/gh_events_sample.jsonl \
+  --model outputs/sample_ranker.json \
+  --observation-hours 8 \
+  --target-hours 6 \
+  --output outputs/sample_ml_rankings.csv
+```
+
 Evaluate the ranking against future growth in the sample data:
 
 ```bash
 PYTHONPATH=src python3 -m reporadar evaluate \
   --input data/sample/gh_events_sample.jsonl \
+  --model outputs/sample_ranker.json \
+  --observation-hours 8 \
+  --target-hours 6 \
   --top-k 3
 ```
 
@@ -79,6 +112,16 @@ PYTHONPATH=src python3 -m reporadar fetch \
   --output data/raw/gharchive
 ```
 
+Or pull a date range:
+
+```bash
+PYTHONPATH=src python3 -m reporadar fetch-range \
+  --start-date 2026-05-01 \
+  --end-date 2026-05-02 \
+  --hours 0 1 2 \
+  --output data/raw/gharchive
+```
+
 Then rank the downloaded archives:
 
 ```bash
@@ -86,6 +129,34 @@ PYTHONPATH=src python3 -m reporadar rank \
   --input data/raw/gharchive \
   --output outputs/real_rankings.csv
 ```
+
+For model training, create rolling windows from the downloaded archives:
+
+```bash
+PYTHONPATH=src python3 -m reporadar dataset \
+  --input data/raw/gharchive \
+  --output data/processed/gharchive_training_rows.csv \
+  --observation-hours 24 \
+  --target-hours 24 \
+  --stride-hours 6
+```
+
+Then train and evaluate:
+
+```bash
+PYTHONPATH=src python3 -m reporadar train \
+  --dataset data/processed/gharchive_training_rows.csv \
+  --model outputs/gharchive_ranker.json
+
+PYTHONPATH=src python3 -m reporadar evaluate \
+  --input data/raw/gharchive \
+  --model outputs/gharchive_ranker.json \
+  --observation-hours 24 \
+  --target-hours 24 \
+  --top-k 20
+```
+
+Start small with a few hours first. GH Archive files can be large.
 
 Source: https://www.gharchive.org/
 
@@ -105,9 +176,10 @@ Source: https://www.gharchive.org/
 
 - rolling daily feature windows
 - train/test split by time
-- LightGBM or XGBoost learning-to-rank model
+- pure-Python pairwise learning-to-rank model
+- model persistence to JSON
 - precision@k, recall@k, NDCG@k
-- feature importance dashboard
+- learned feature weights
 
 ### Version 0.3: Neural/Graph Upgrade
 

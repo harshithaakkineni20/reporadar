@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from math import log2
 from typing import Any
 
 from reporadar.features import baseline_score
@@ -17,12 +19,15 @@ EXPLANATION_SIGNALS = (
 )
 
 
-def rank_repositories(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def rank_repositories(
+    rows: list[dict[str, Any]],
+    scorer: Callable[[dict[str, Any]], float] | None = None,
+) -> list[dict[str, Any]]:
     """Attach scores, ranks, and short explanations."""
     scored = []
     for row in rows:
         enriched = dict(row)
-        enriched["score"] = baseline_score(row)
+        enriched["score"] = round(float(scorer(row) if scorer else baseline_score(row)), 4)
         enriched["why"] = explain_row(row)
         scored.append(enriched)
 
@@ -65,3 +70,19 @@ def recall_at_k(rows: list[dict[str, Any]], k: int) -> float:
         return 0.0
     hits = sum(1 for row in rows[:k] if float(row.get("future_growth") or 0) > 0)
     return hits / total_relevant
+
+
+def ndcg_at_k(rows: list[dict[str, Any]], k: int) -> float:
+    """Measure ranking quality using future_growth as graded relevance."""
+    if k <= 0:
+        raise ValueError("k must be positive")
+
+    def dcg(relevances: list[float]) -> float:
+        return sum((rel / log2(index + 2)) for index, rel in enumerate(relevances))
+
+    observed = [float(row.get("future_growth") or 0) for row in rows[:k]]
+    ideal = sorted((float(row.get("future_growth") or 0) for row in rows), reverse=True)[:k]
+    ideal_dcg = dcg(ideal)
+    if ideal_dcg == 0:
+        return 0.0
+    return dcg(observed) / ideal_dcg

@@ -4,7 +4,7 @@ import gzip
 import json
 import urllib.request
 from collections.abc import Iterator
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -27,9 +27,20 @@ def fetch_archive(day: date, hour: int, output_dir: Path) -> Path:
         return destination
 
     url = archive_url(day, hour)
-    with urllib.request.urlopen(url, timeout=60) as response:
+    request = urllib.request.Request(url, headers={"User-Agent": "RepoRadar/0.1"})
+    with urllib.request.urlopen(request, timeout=60) as response:
         destination.write_bytes(response.read())
     return destination
+
+
+def iter_dates(start: date, end: date) -> Iterator[date]:
+    """Yield every date in a closed date range."""
+    if end < start:
+        raise ValueError("end date must be on or after start date")
+    current = start
+    while current <= end:
+        yield current
+        current += timedelta(days=1)
 
 
 def iter_event_files(path: Path) -> Iterator[Path]:

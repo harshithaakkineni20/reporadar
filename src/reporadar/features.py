@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from math import log1p
@@ -14,6 +15,11 @@ def parse_github_time(value: str) -> datetime:
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=timezone.utc)
     return parsed.astimezone(timezone.utc)
+
+
+def format_github_time(value: datetime) -> str:
+    """Format an aware UTC datetime in GitHub-style ISO format."""
+    return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 @dataclass
@@ -131,13 +137,16 @@ def build_feature_rows(
     events: list[dict[str, Any]],
     cutoff: datetime,
     target_hours: int | None = 168,
+    observation_hours: int | None = None,
 ) -> list[dict[str, Any]]:
     """Aggregate raw events into one row per repository.
 
     Events at or before the cutoff become model features. Events after the cutoff become
-    future-growth labels, optionally capped by target_hours.
+    future-growth labels, optionally capped by target_hours. When observation_hours is set,
+    features only use the trailing window before the cutoff instead of all prior history.
     """
     cutoff = cutoff.astimezone(timezone.utc)
+    observation_start = cutoff - timedelta(hours=observation_hours) if observation_hours else None
     target_end = cutoff + timedelta(hours=target_hours) if target_hours else None
     accumulators: dict[str, RepoAccumulator] = {}
 
@@ -152,7 +161,7 @@ def build_feature_rows(
         event_time = parse_github_time(created_at)
         accumulator = accumulators.get(repo_name)
 
-        if event_time <= cutoff:
+        if event_time <= cutoff and (observation_start is None or event_time >= observation_start):
             if accumulator is None:
                 accumulator = RepoAccumulator(repo_name=repo_name, repo_id=repo.get("id"))
                 accumulators[repo_name] = accumulator
@@ -161,6 +170,57 @@ def build_feature_rows(
             accumulator.add_future(event)
 
     return [accumulator.to_row() for accumulator in accumulators.values()]
+
+
+def generate_cutoffs(
+    events: Iterable[dict[str, Any]],
+    observation_hours: int,
+    target_hours: int,
+    stride_hours: int,
+) -> list[datetime]:
+    """Generate rolling cutoff timestamps from the available event timeline."""
+    times = sorted(parse_github_time(event["created_at"]) for event in events if event.get("created_at"))
+    if not times:
+        return []
+
+    start = times[0] + timedelta(hours=observation_hours)
+    end = times[-1] - timedelta(hours=target_hours)
+    if start > end:
+        return [infer_cutoff([{"created_at": format_github_time(time)} for time in times])]
+
+    cutoffs = []
+    current = start
+    while current <= end:
+        cutoffs.append(current)
+        current += timedelta(hours=stride_hours)
+    return cutoffs
+
+
+def build_dataset_rows(
+    events: list[dict[str, Any]],
+    cutoffs: list[datetime],
+    observation_hours: int,
+    target_hours: int,
+) -> list[dict[str, Any]]:
+    """Create model-ready rows across many observation/target windows."""
+    dataset_rows: list[dict[str, Any]] = []
+    for cutoff in cutoffs:
+        window_rows = build_feature_rows(
+            events,
+            cutoff=cutoff,
+            target_hours=target_hours,
+            observation_hours=observation_hours,
+        )
+        observation_start = cutoff - timedelta(hours=observation_hours)
+        target_end = cutoff + timedelta(hours=target_hours)
+        for row in window_rows:
+            enriched = dict(row)
+            enriched["window_id"] = format_github_time(cutoff)
+            enriched["observation_start"] = format_github_time(observation_start)
+            enriched["cutoff"] = format_github_time(cutoff)
+            enriched["target_end"] = format_github_time(target_end)
+            dataset_rows.append(enriched)
+    return dataset_rows
 
 
 def baseline_score(row: dict[str, Any]) -> float:
