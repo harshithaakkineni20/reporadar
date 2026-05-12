@@ -16,6 +16,8 @@ RepoRadar turns public GitHub activity into temporal repo features, ranks projec
 
 The system starts with a transparent baseline score so every recommendation can be explained. It now also includes rolling feature windows and a pairwise learning-to-rank model that learns which signals separate future winners from low-growth repos.
 
+The discovery layer enriches top-ranked repos with GitHub metadata, categorizes their use case, and separates useful discovery candidates from noisy repos such as test apps, image beds, personal sites, logs, and generated content.
+
 ## Why Big Tech Would Care
 
 This maps to several real product areas:
@@ -34,11 +36,13 @@ This maps to several real product areas:
 2. Rolling feature-label windows from GH Archive events
 3. Pairwise learning-to-rank model with saved weights
 4. Time-based train/test split with ranking metrics
-5. Gradient-boosted learning-to-rank model
-6. README/topic embeddings for semantic repo similarity
-7. user-repo interaction graph
-8. temporal graph neural network or neural reranker
-9. RAG explanations over README files, issues, releases, and docs
+5. Category-aware discovery using descriptions, topics, languages, and README excerpts
+6. Quality/noise scoring for practical repo discovery
+7. Gradient-boosted learning-to-rank model
+8. README/topic embeddings for semantic repo similarity
+9. user-repo interaction graph
+10. temporal graph neural network or neural reranker
+11. RAG explanations over README files, issues, releases, and docs
 
 ## Demo Narrative
 

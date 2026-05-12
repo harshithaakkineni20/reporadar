@@ -160,6 +160,64 @@ Start small with a few hours first. GH Archive files can be large.
 
 Source: https://www.gharchive.org/
 
+## Category-Aware Discovery
+
+Raw activity ranking can surface noisy repositories: image beds, test apps, personal sites, logs, mirrors, and generated content. RepoRadar adds a discovery layer that enriches top-ranked repositories with GitHub metadata, categorizes their use case, and separates noisy repos from useful discovery candidates.
+
+Enrich the top ranked repos with GitHub metadata:
+
+```bash
+PYTHONPATH=src python3 -m reporadar enrich \
+  --rankings outputs/gharchive_rankings.csv \
+  --output data/processed/enriched_repos.csv \
+  --top 50
+```
+
+Categorize use cases and compute discovery scores:
+
+```bash
+PYTHONPATH=src python3 -m reporadar categorize \
+  --input data/processed/enriched_repos.csv \
+  --output outputs/discovery.csv
+```
+
+Show clean category leaderboards:
+
+```bash
+PYTHONPATH=src python3 -m reporadar discover \
+  --input outputs/discovery.csv \
+  --top 10 \
+  --hide-noise \
+  --hide-uncategorized
+```
+
+Show one category:
+
+```bash
+PYTHONPATH=src python3 -m reporadar discover \
+  --input outputs/discovery.csv \
+  --category ai_ml_data \
+  --top 10 \
+  --hide-noise
+```
+
+Current categories:
+
+- `ai_ml_data`
+- `developer_tools`
+- `infra_devops`
+- `security_privacy`
+- `apps_products`
+- `libraries_frameworks`
+- `datasets_research`
+- `education_tutorials`
+- `automation_bots_scrapers`
+- `creative_games_media`
+- `personal_content_noise`
+- `uncategorized`
+
+Metadata used for discovery includes descriptions, topics, primary language, language bytes, license, stars, forks, open issues, repository flags, owner type, timestamps, and README excerpts when available.
+
 ## Project Roadmap
 
 ### Version 0.1: Today
@@ -183,6 +241,9 @@ Source: https://www.gharchive.org/
 
 ### Version 0.3: Neural/Graph Upgrade
 
+- GitHub metadata enrichment
+- category-aware repo discovery
+- quality and noise scoring
 - repo-user interaction graph
 - contributor quality embeddings
 - language/topic embeddings from README text

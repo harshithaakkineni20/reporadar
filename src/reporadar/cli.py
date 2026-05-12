@@ -4,6 +4,7 @@ import argparse
 from datetime import date
 from pathlib import Path
 
+from reporadar.categorize import categorize_rows
 from reporadar.features import (
     build_dataset_rows,
     build_feature_rows,
@@ -12,7 +13,14 @@ from reporadar.features import (
     parse_github_time,
 )
 from reporadar.gharchive import fetch_archive, iter_dates, iter_events
-from reporadar.io import read_rankings_csv, read_rows_csv, write_dataset_csv, write_rankings_csv
+from reporadar.github_api import GitHubClient, enrich_repo
+from reporadar.io import (
+    read_rankings_csv,
+    read_rows_csv,
+    write_dataset_csv,
+    write_enriched_csv,
+    write_rankings_csv,
+)
 from reporadar.ml import PairwiseLinearRanker, pairwise_accuracy, train_pairwise_ranker
 from reporadar.ranking import ndcg_at_k, precision_at_k, rank_repositories, recall_at_k
 
@@ -100,6 +108,40 @@ def build_parser() -> argparse.ArgumentParser:
     explain_parser.add_argument("--rankings", type=Path, default=Path("outputs/rankings.csv"))
     explain_parser.add_argument("--repo", required=True)
     explain_parser.set_defaults(func=explain_command)
+
+    enrich_parser = subparsers.add_parser(
+        "enrich",
+        help="Fetch GitHub metadata for ranked repositories.",
+    )
+    enrich_parser.add_argument("--rankings", type=Path, required=True)
+    enrich_parser.add_argument("--output", type=Path, default=Path("data/processed/enriched_repos.csv"))
+    enrich_parser.add_argument("--top", type=int, default=30)
+    enrich_parser.add_argument("--readme-chars", type=int, default=2500)
+    enrich_parser.add_argument(
+        "--skip-readme",
+        action="store_true",
+        help="Skip README fetches to reduce API calls.",
+    )
+    enrich_parser.set_defaults(func=enrich_command)
+
+    categorize_parser = subparsers.add_parser(
+        "categorize",
+        help="Categorize enriched repos into discovery use cases.",
+    )
+    categorize_parser.add_argument("--input", type=Path, required=True)
+    categorize_parser.add_argument("--output", type=Path, default=Path("outputs/discovery.csv"))
+    categorize_parser.set_defaults(func=categorize_command)
+
+    discover_parser = subparsers.add_parser(
+        "discover",
+        help="Show category-specific discovery leaderboards.",
+    )
+    discover_parser.add_argument("--input", type=Path, required=True)
+    discover_parser.add_argument("--category", default="all")
+    discover_parser.add_argument("--top", type=int, default=10)
+    discover_parser.add_argument("--hide-noise", action="store_true")
+    discover_parser.add_argument("--hide-uncategorized", action="store_true")
+    discover_parser.set_defaults(func=discover_command)
 
     return parser
 
@@ -269,6 +311,93 @@ def explain_command(args: argparse.Namespace) -> None:
         f"velocity={row['activity_velocity']}"
     )
     print(f"Future growth label: {row['future_growth']}")
+
+
+def enrich_command(args: argparse.Namespace) -> None:
+    rows = read_rankings_csv(args.rankings)
+    if args.top > 0:
+        rows = rows[: args.top]
+    if not rows:
+        raise SystemExit("No ranking rows found.")
+
+    client = GitHubClient.from_environment()
+    enriched_rows = []
+    for index, row in enumerate(rows, start=1):
+        repo_name = row.get("repo_name", "")
+        metadata = enrich_repo(
+            repo_name,
+            client=client,
+            include_readme=not args.skip_readme,
+            readme_chars=args.readme_chars,
+        )
+        enriched = dict(row)
+        enriched.update(metadata)
+        enriched_rows.append(enriched)
+        print(f"[{index}/{len(rows)}] enriched {repo_name}")
+
+    write_enriched_csv(enriched_rows, args.output)
+    print(f"Wrote {len(enriched_rows)} enriched repos to {args.output}")
+
+
+def categorize_command(args: argparse.Namespace) -> None:
+    rows = read_rows_csv(args.input)
+    if not rows:
+        raise SystemExit("No rows found.")
+
+    categorized = categorize_rows(rows)
+    categorized.sort(key=lambda row: -float(row.get("discovery_score") or 0))
+    write_enriched_csv(categorized, args.output)
+
+    categories = sorted({row["category"] for row in categorized})
+    print(f"Wrote {len(categorized)} categorized repos to {args.output}")
+    print("Categories:")
+    for category in categories:
+        count = sum(1 for row in categorized if row["category"] == category)
+        print(f"- {category}: {count}")
+
+
+def discover_command(args: argparse.Namespace) -> None:
+    rows = read_rows_csv(args.input)
+    if not rows:
+        raise SystemExit("No rows found.")
+
+    if args.hide_noise:
+        rows = [row for row in rows if row.get("category") != "personal_content_noise"]
+    if args.hide_uncategorized:
+        rows = [row for row in rows if row.get("category") != "uncategorized"]
+    if args.category != "all":
+        rows = [row for row in rows if row.get("category") == args.category]
+
+    rows.sort(key=lambda row: -float(row.get("discovery_score") or 0))
+    if args.category == "all":
+        print_category_leaderboards(rows, top=args.top)
+    else:
+        print_repo_rows(rows[: args.top])
+
+
+def print_category_leaderboards(rows: list[dict[str, str]], top: int) -> None:
+    categories = []
+    for row in rows:
+        category = row.get("category", "uncategorized")
+        if category not in categories:
+            categories.append(category)
+
+    for category in categories:
+        category_rows = [row for row in rows if row.get("category") == category][:top]
+        if not category_rows:
+            continue
+        print()
+        print(f"{category}:")
+        print_repo_rows(category_rows)
+
+
+def print_repo_rows(rows: list[dict[str, str]]) -> None:
+    for row in rows:
+        print(
+            f"- {row.get('repo_name')}: discovery={row.get('discovery_score')}, "
+            f"quality={row.get('quality_score')}, noise={row.get('noise_score')}, "
+            f"category={row.get('category')}, why={row.get('category_reason')}"
+        )
 
 
 def load_model(path: Path) -> PairwiseLinearRanker:

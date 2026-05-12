@@ -59,6 +59,42 @@ DATASET_COLUMNS = [
 ]
 
 
+ENRICHED_COLUMNS = [
+    "rank",
+    "repo_name",
+    "category",
+    "category_confidence",
+    "discovery_score",
+    "quality_score",
+    "noise_score",
+    "category_reason",
+    "score",
+    "future_growth",
+    "why",
+    "html_url",
+    "description",
+    "homepage",
+    "primary_language",
+    "topics",
+    "license_key",
+    "stargazers_count",
+    "forks_count",
+    "open_issues_count",
+    "owner_type",
+    "created_at",
+    "updated_at",
+    "pushed_at",
+    "is_fork",
+    "is_archived",
+    "has_issues",
+    "has_pages",
+    "has_discussions",
+    "metadata_error",
+    "languages_json",
+    "readme_excerpt",
+]
+
+
 def write_rows_csv(
     rows: list[dict[str, Any]],
     output_path: Path,
@@ -79,6 +115,11 @@ def write_rankings_csv(rows: list[dict[str, Any]], output_path: Path) -> None:
 
 def write_dataset_csv(rows: list[dict[str, Any]], output_path: Path) -> None:
     write_rows_csv(rows, output_path, DATASET_COLUMNS)
+
+
+def write_enriched_csv(rows: list[dict[str, Any]], output_path: Path) -> None:
+    extra_columns = sorted({key for row in rows for key in row} - set(ENRICHED_COLUMNS))
+    write_rows_csv(rows, output_path, ENRICHED_COLUMNS + extra_columns)
 
 
 def read_rows_csv(path: Path) -> list[dict[str, str]]:
