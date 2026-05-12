@@ -12,6 +12,9 @@ build/
 
 data/raw/
 data/processed/
+data/subscribers.csv
+data/history/*.db
+data/history/*.sqlite
 outputs/
 runs/
 

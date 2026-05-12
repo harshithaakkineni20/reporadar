@@ -11,7 +11,7 @@ on:
     - cron: "30 3 * * 1"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   discover:
@@ -40,9 +40,35 @@ jobs:
             python -m reporadar continuous
           fi
 
+      - name: Commit persistent history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/history/
+          git diff --cached --quiet || git commit -m "Update RepoRadar history"
+          git push
+
+      - name: Email weekly digest
+        env:
+          REPORADAR_EMAIL_TO: ${{ secrets.REPORADAR_EMAIL_TO }}
+          REPORADAR_EMAIL_FROM: ${{ secrets.REPORADAR_EMAIL_FROM }}
+          REPORADAR_SMTP_HOST: ${{ secrets.REPORADAR_SMTP_HOST }}
+          REPORADAR_SMTP_PORT: ${{ secrets.REPORADAR_SMTP_PORT }}
+          REPORADAR_SMTP_USERNAME: ${{ secrets.REPORADAR_SMTP_USERNAME }}
+          REPORADAR_SMTP_PASSWORD: ${{ secrets.REPORADAR_SMTP_PASSWORD }}
+        run: |
+          if [ -z "$REPORADAR_EMAIL_TO" ]; then
+            echo "No REPORADAR_EMAIL_TO secret configured; skipping email."
+            python -m reporadar email-digest --history-dir data/history --top 10
+            exit 0
+          fi
+          python -m reporadar email-digest --history-dir data/history --top 10 --send
+
       - name: Upload discovery run
         uses: actions/upload-artifact@v4
         with:
           name: reporadar-discovery-run
-          path: runs/reporadar/
+          path: |
+            runs/reporadar/
+            data/history/
           retention-days: 14

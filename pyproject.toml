@@ -12,6 +12,10 @@ authors = [{ name = "RepoRadar Contributors" }]
 dependencies = []
 
 [project.optional-dependencies]
+backend = [
+  "fastapi>=0.115",
+  "uvicorn>=0.30"
+]
 app = [
   "pandas>=2.2",
   "plotly>=5.22",

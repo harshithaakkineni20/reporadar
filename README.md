@@ -164,6 +164,8 @@ Source: https://www.gharchive.org/
 
 RepoRadar can run continuously as a scheduled GitHub Actions workflow. In this project, "continuous" means scheduled monitoring: GitHub runs the pipeline automatically, fetches a fresh GH Archive time slice, ranks repositories, enriches the top candidates, categorizes them, and uploads a discovery report.
 
+The weekly fetch is date-based. On Monday, the workflow defaults to "yesterday UTC", downloads hourly GH Archive files for that date, and treats that date as a frozen snapshot. Older snapshots are not rewritten. If the same repo keeps gaining momentum, it appears again in the newer run and the history layer compares the new score with the previous stored appearance.
+
 The workflow lives at:
 
 ```text
@@ -202,7 +204,56 @@ That folder contains:
 - categorized discovery CSV
 - Markdown discovery report
 
+The workflow also writes a small persistent history store under:
+
+```text
+data/history/
+```
+
+Unlike the large run artifacts, this history folder is intended to survive across weeks. It stores compact CSVs for run summaries and repo observations, so the backend can answer questions like "is this repo new?", "did its score increase?", and "how many weeks has it appeared?"
+
 If the workflow runs on a new date, the results should change because GitHub activity changed. If you run the same date and same hours again, the output should be mostly the same.
+
+Inspect the latest stored history:
+
+```bash
+PYTHONPATH=src python3 -m reporadar history --top 10
+```
+
+Preview the weekly email digest:
+
+```bash
+PYTHONPATH=src python3 -m reporadar email-digest --top 10
+```
+
+Run the backend API locally:
+
+```bash
+python3 -m pip install -e ".[backend]"
+PYTHONPATH=src python3 -m reporadar serve --port 8000
+```
+
+Useful API routes:
+
+```text
+GET /health
+GET /runs
+GET /discoveries
+GET /categories
+GET /repos/{owner}/{repo}
+POST /subscribe
+```
+
+Weekly email can be sent from GitHub Actions when these secrets are configured:
+
+```text
+REPORADAR_EMAIL_TO
+REPORADAR_EMAIL_FROM
+REPORADAR_SMTP_HOST
+REPORADAR_SMTP_PORT
+REPORADAR_SMTP_USERNAME
+REPORADAR_SMTP_PASSWORD
+```
 
 ## Category-Aware Discovery
 

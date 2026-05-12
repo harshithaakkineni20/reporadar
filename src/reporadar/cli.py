@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from reporadar.categorize import categorize_rows
+from reporadar.emailer import build_weekly_digest, read_recipients, send_digest
 from reporadar.feedback import attach_feedback, read_feedback
 from reporadar.features import (
     build_dataset_rows,
@@ -15,6 +16,7 @@ from reporadar.features import (
 )
 from reporadar.gharchive import fetch_archive, iter_dates, iter_events
 from reporadar.github_api import GitHubClient, enrich_repo
+from reporadar.history import append_run_history, discoveries_for_run, latest_run_date
 from reporadar.io import (
     read_rankings_csv,
     read_rows_csv,
@@ -161,6 +163,44 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--labels", type=Path, help="Optional human review labels CSV.")
     report_parser.set_defaults(func=report_command)
 
+    store_parser = subparsers.add_parser(
+        "store-run",
+        help="Store a completed run in the persistent history layer.",
+    )
+    store_parser.add_argument("--run-dir", type=Path, required=True)
+    store_parser.add_argument("--history-dir", type=Path, default=Path("data/history"))
+    store_parser.add_argument("--labels", type=Path, default=Path("data/labels/review_labels.csv"))
+    store_parser.set_defaults(func=store_run_command)
+
+    history_parser = subparsers.add_parser(
+        "history",
+        help="Show latest discoveries from stored weekly history.",
+    )
+    history_parser.add_argument("--history-dir", type=Path, default=Path("data/history"))
+    history_parser.add_argument("--run-date")
+    history_parser.add_argument("--category")
+    history_parser.add_argument("--top", type=int, default=10)
+    history_parser.set_defaults(func=history_command)
+
+    email_parser = subparsers.add_parser(
+        "email-digest",
+        help="Build or send a weekly email digest from stored history.",
+    )
+    email_parser.add_argument("--history-dir", type=Path, default=Path("data/history"))
+    email_parser.add_argument("--run-date")
+    email_parser.add_argument("--top", type=int, default=10)
+    email_parser.add_argument("--subscribers", type=Path, default=Path("data/subscribers.csv"))
+    email_parser.add_argument("--send", action="store_true")
+    email_parser.set_defaults(func=email_digest_command)
+
+    serve_parser = subparsers.add_parser(
+        "serve",
+        help="Run the RepoRadar backend API with uvicorn.",
+    )
+    serve_parser.add_argument("--host", default="127.0.0.1")
+    serve_parser.add_argument("--port", type=int, default=8000)
+    serve_parser.set_defaults(func=serve_command)
+
     continuous_parser = subparsers.add_parser(
         "continuous",
         help="Run the full scheduled discovery pipeline for one date.",
@@ -186,6 +226,7 @@ def build_parser() -> argparse.ArgumentParser:
     continuous_parser.add_argument("--min-quality", type=float, default=5.0)
     continuous_parser.add_argument("--max-noise", type=float, default=4.0)
     continuous_parser.add_argument("--labels", type=Path, default=Path("data/labels/review_labels.csv"))
+    continuous_parser.add_argument("--history-dir", type=Path, default=Path("data/history"))
     continuous_parser.add_argument("--skip-readme", action="store_true")
     continuous_parser.set_defaults(func=continuous_command)
 
@@ -470,6 +511,79 @@ def report_command(args: argparse.Namespace) -> None:
     print(f"Wrote discovery report to {args.output}")
 
 
+def store_run_command(args: argparse.Namespace) -> None:
+    summary_path = args.run_dir / "summary.txt"
+    discovery_path = args.run_dir / "discovery.csv"
+    if not summary_path.exists():
+        raise SystemExit(f"Missing summary file: {summary_path}")
+    if not discovery_path.exists():
+        raise SystemExit(f"Missing discovery file: {discovery_path}")
+
+    summary_rows = read_rows_csv(summary_path)
+    if not summary_rows:
+        raise SystemExit(f"No summary rows found in {summary_path}")
+    summary = summary_rows[0]
+    run_date = summary.get("run_date") or args.run_dir.name
+    rows = attach_feedback(read_rows_csv(discovery_path), read_feedback(args.labels))
+    runs_path, observations_path = append_run_history(
+        run_date=run_date,
+        summary=summary,
+        discovery_rows=rows,
+        history_dir=args.history_dir,
+    )
+    print(f"Stored run {run_date}")
+    print(f"- {runs_path}")
+    print(f"- {observations_path}")
+
+
+def history_command(args: argparse.Namespace) -> None:
+    run_date = args.run_date or latest_run_date(args.history_dir)
+    if not run_date:
+        raise SystemExit("No stored history found. Run `reporadar store-run` first.")
+    rows = discoveries_for_run(
+        args.history_dir,
+        run_date=run_date,
+        category=args.category,
+        limit=args.top,
+    )
+    print(f"RepoRadar history for {run_date}")
+    if not rows:
+        print("No candidates passed the current history filters.")
+        return
+    for index, row in enumerate(rows, start=1):
+        trend = "new" if row.get("is_new") == "true" else f"delta={row.get('discovery_delta')}"
+        print(
+            f"{index}. {row.get('repo_name')} "
+            f"category={row.get('category')} discovery={row.get('discovery_score')} {trend}"
+        )
+
+
+def email_digest_command(args: argparse.Namespace) -> None:
+    subject, body = build_weekly_digest(
+        args.history_dir,
+        run_date=args.run_date,
+        top=args.top,
+    )
+    if not args.send:
+        print(f"Subject: {subject}")
+        print()
+        print(body)
+        return
+
+    recipients = read_recipients(args.subscribers)
+    sent = send_digest(subject=subject, body=body, recipients=recipients)
+    print(f"Sent weekly digest to {sent} recipient(s).")
+
+
+def serve_command(args: argparse.Namespace) -> None:
+    try:
+        import uvicorn
+    except ImportError as exc:
+        raise SystemExit("Install backend dependencies with `python3 -m pip install -e .[backend]`.") from exc
+
+    uvicorn.run("reporadar.api:app", host=args.host, port=args.port, reload=False)
+
+
 def continuous_command(args: argparse.Namespace) -> None:
     run_day = (
         date.fromisoformat(args.run_date)
@@ -573,20 +687,25 @@ def continuous_command(args: argparse.Namespace) -> None:
     print(f"report={report_path}")
 
     summary_path = run_dir / "summary.txt"
-    write_rows_csv(
-        [
-            {
-                "run_date": run_day.isoformat(),
-                "events": len(events),
-                "training_rows": len(dataset_rows),
-                "ranked_repos": len(ranked),
-                "enriched_repos": len(enriched_rows),
-                "report": report_path,
-            }
-        ],
-        summary_path,
-    )
+    summary = {
+        "run_date": run_day.isoformat(),
+        "events": len(events),
+        "training_rows": len(dataset_rows),
+        "ranked_repos": len(ranked),
+        "enriched_repos": len(enriched_rows),
+        "report": report_path,
+    }
+    write_rows_csv([summary], summary_path)
     print(f"summary={summary_path}")
+
+    runs_path, observations_path = append_run_history(
+        run_date=run_day.isoformat(),
+        summary=summary,
+        discovery_rows=labeled_rows,
+        history_dir=args.history_dir,
+    )
+    print(f"history_runs={runs_path}")
+    print(f"history_observations={observations_path}")
 
 
 def load_model(path: Path) -> PairwiseLinearRanker:
