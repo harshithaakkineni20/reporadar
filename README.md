@@ -4,7 +4,7 @@ RepoRadar is an early-signal engine for GitHub projects. It asks a simple questi
 
 > Which open-source repos look like they are about to gain momentum?
 
-This is a portfolio project for ranking, time-series features, developer ecosystem analytics, and eventually graph/neural recommendation models.
+It combines event-stream processing, time-windowed ranking features, metadata enrichment, category-aware discovery, and persistent trend history.
 
 ## Why This Project Exists
 
@@ -19,7 +19,7 @@ GitHub has millions of repositories. By the time a project appears on every tren
 
 The first version is intentionally small and runnable today. It uses GH Archive-style events, builds repo-level features, trains a pairwise ranking model, and evaluates whether the ranking matched future growth.
 
-## What You Can Demo
+## Example Output
 
 ```text
 Input: public GitHub activity events
@@ -32,10 +32,6 @@ Example:
 2. vectorflux/mini-rag
    Why: star growth, fork growth, release activity, commit burst
 ```
-
-That gives you a clear interview story:
-
-> I built an early-detection ranking system for open-source projects using GitHub event streams. I engineered temporal activity features, created future-growth labels, evaluated ranking quality, and designed the roadmap toward graph-based and neural ranking models.
 
 ## Quick Start
 
