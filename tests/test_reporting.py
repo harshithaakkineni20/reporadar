@@ -28,18 +28,30 @@ class ReportingTests(unittest.TestCase):
                 "noise_score": "5.5",
                 "category_reason": "noise indicators: img",
             },
+            {
+                "repo_name": "NousResearch/hermes-agent",
+                "html_url": "https://github.com/NousResearch/hermes-agent",
+                "category": "ai_ml_data",
+                "discovery_score": "31",
+                "quality_score": "9.5",
+                "noise_score": "4.5",
+                "category_reason": "matched: agent, llm",
+            },
         ]
 
-        markdown = build_discovery_report(rows, source_name="outputs/discovery.csv", top=5)
+        markdown = build_discovery_report(rows, source_name="outputs/discovery.csv", top=5, max_noise=4.0)
 
         self.assertIn("# RepoRadar Discovery Review", markdown)
-        self.assertIn("Repositories analyzed: 2", markdown)
+        self.assertIn("Repositories analyzed: 3", markdown)
         self.assertIn("How To Read This", markdown)
         self.assertIn("[hyperspaceai/agi]", markdown)
         self.assertIn("personal_content_noise", markdown)
         self.assertIn("Human-reviewed candidates: 1", markdown)
         self.assertIn("Human review: `keep`", markdown)
         self.assertIn("Next review action: keep / reject / relabel?", markdown)
+        self.assertIn("Near Misses To Debug", markdown)
+        self.assertIn("[NousResearch/hermes-agent]", markdown)
+        self.assertIn("noise 4.500 above max 4.000", markdown)
         self.assertIn("If You Run This Again Next Week", markdown)
 
 

@@ -10,16 +10,11 @@ def build_discovery_report(
     source_name: str,
     top: int = 5,
     min_quality: float = 5.0,
-    max_noise: float = 3.5,
+    max_noise: float = 4.0,
 ) -> str:
-    filtered = [
-        row
-        for row in rows
-        if row.get("category") not in {"personal_content_noise", "uncategorized"}
-        and as_float(row, "quality_score") >= min_quality
-        and as_float(row, "noise_score") <= max_noise
-    ]
+    filtered = [row for row in rows if passes_report_filters(row, min_quality, max_noise)]
     filtered.sort(key=lambda row: -as_float(row, "discovery_score"))
+    near_misses = find_near_misses(rows, min_quality, max_noise, limit=5)
 
     category_counts = Counter(row.get("category", "uncategorized") for row in rows)
     noise_count = category_counts.get("personal_content_noise", 0)
@@ -74,6 +69,28 @@ def build_discovery_report(
     lines.extend(
         [
             "",
+            "## Near Misses To Debug",
+            "",
+            "These repos had enough signal to be worth inspecting, but they did not pass the report filters. This section is for improving the model, not for final recommendations.",
+            "",
+        ]
+    )
+
+    if near_misses:
+        lines.extend(
+            [
+                "| Repo | Category | Discovery | Quality | Noise | Why filtered |",
+                "|---|---|---:|---:|---:|---|",
+            ]
+        )
+        for row in near_misses:
+            lines.append(near_miss_row(row, min_quality, max_noise))
+    else:
+        lines.append("No strong near misses found under the current filters.")
+
+    lines.extend(
+        [
+            "",
             "## What To Check Manually",
             "",
             "For each candidate, answer:",
@@ -110,6 +127,7 @@ def build_discovery_report(
             "- `quality_score` rewards useful metadata such as description, topics, README, license, language, stars, forks, PRs, and issues.",
             "- `noise_score` penalizes signals common in test repos, image beds, personal pages, logs, backups, and generated content.",
             "- `personal_content_noise` catches test repos, image beds, logs, blogs, and similar low-discovery-value repos.",
+            "- `Near Misses To Debug` shows repos that the filters removed even though they had momentum or useful metadata.",
             "- This report is generated from a small top-N enrichment pass, so results improve as more ranked repos are enriched.",
             "",
         ]
@@ -138,13 +156,63 @@ def candidate_card(row: dict[str, str], index: int) -> list[str]:
         f"- Category: `{row.get('category', '')}`",
         f"- Why it surfaced: {row.get('category_reason', '')}",
         f"- Human review: {format_human_review(row)}",
-        f"- Scores: discovery `{as_float(row, 'discovery_score'):.3f}`, quality `{as_float(row, 'quality_score'):.3f}`, noise `{as_float(row, 'noise_score'):.3f}`",
+        f"- Scores: discovery `{as_float(row, 'discovery_score'):.3f}`, quality `{as_float(row, 'quality_score'):.3f}`, noise `{as_float(row, 'noise_score'):.3f}`, confidence `{as_float(row, 'category_confidence'):.3f}`",
         f"- Description: {description}",
         f"- Metadata: language `{language}`, license `{license_key}`, stars `{as_int(row, 'stargazers_count')}`, forks `{as_int(row, 'forks_count')}`, open issues `{as_int(row, 'open_issues_count')}`",
         f"- Topics: {topics}",
         "- Next review action: keep / reject / relabel?",
         "",
     ]
+
+
+def passes_report_filters(row: dict[str, str], min_quality: float, max_noise: float) -> bool:
+    return not filter_reasons(row, min_quality, max_noise)
+
+
+def find_near_misses(
+    rows: list[dict[str, str]],
+    min_quality: float,
+    max_noise: float,
+    limit: int,
+) -> list[dict[str, str]]:
+    candidates = []
+    for row in rows:
+        if passes_report_filters(row, min_quality, max_noise):
+            continue
+        if as_float(row, "discovery_score") >= 18 or as_float(row, "quality_score") >= min_quality:
+            candidates.append(row)
+    candidates.sort(key=lambda row: (-as_float(row, "discovery_score"), -as_float(row, "quality_score")))
+    return candidates[:limit]
+
+
+def filter_reasons(row: dict[str, str], min_quality: float, max_noise: float) -> list[str]:
+    reasons = []
+    category = row.get("category", "uncategorized")
+    quality = as_float(row, "quality_score")
+    noise = as_float(row, "noise_score")
+
+    if category == "personal_content_noise":
+        reasons.append("noise category")
+    if category == "uncategorized":
+        reasons.append("uncategorized")
+    if quality < min_quality:
+        reasons.append(f"quality {quality:.3f} below min {min_quality:.3f}")
+    if noise > max_noise:
+        reasons.append(f"noise {noise:.3f} above max {max_noise:.3f}")
+    return reasons
+
+
+def near_miss_row(row: dict[str, str], min_quality: float, max_noise: float) -> str:
+    repo = row.get("repo_name", "")
+    url = row.get("html_url", "")
+    repo_text = f"[{repo}]({url})" if url else f"`{repo}`"
+    reasons = "; ".join(filter_reasons(row, min_quality, max_noise))
+    return (
+        f"| {repo_text} | `{row.get('category', '')}` | "
+        f"{as_float(row, 'discovery_score'):.3f} | "
+        f"{as_float(row, 'quality_score'):.3f} | "
+        f"{as_float(row, 'noise_score'):.3f} | {reasons} |"
+    )
 
 
 def as_float(row: dict[str, str], key: str) -> float:

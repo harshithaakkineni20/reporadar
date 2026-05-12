@@ -234,7 +234,7 @@ PYTHONPATH=src python3 -m reporadar discover \
   --hide-noise \
   --hide-uncategorized \
   --min-quality 5 \
-  --max-noise 3.5
+  --max-noise 4.0
 ```
 
 Show one category:
@@ -246,7 +246,7 @@ PYTHONPATH=src python3 -m reporadar discover \
   --top 10 \
   --hide-noise \
   --min-quality 5 \
-  --max-noise 3.5
+  --max-noise 4.0
 ```
 
 Generate a Markdown experiment report:
@@ -258,10 +258,10 @@ PYTHONPATH=src python3 -m reporadar report \
   --labels data/labels/review_labels.csv \
   --top 10 \
   --min-quality 5 \
-  --max-noise 3.5
+  --max-noise 4.0
 ```
 
-The report is designed as a human review document. It explains what happened, shows candidate cards with descriptions and metadata, and gives manual review questions so you can decide whether the model is surfacing genuinely useful repositories.
+The report is designed as a human review document. It explains what happened, shows candidate cards with descriptions and metadata, includes near misses that were filtered out, and gives manual review questions so you can decide whether the model is surfacing genuinely useful repositories.
 
 Human feedback lives in:
 

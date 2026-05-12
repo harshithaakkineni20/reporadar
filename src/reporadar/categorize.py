@@ -23,6 +23,16 @@ CATEGORY_KEYWORDS = {
         "model",
         "pytorch",
         "tensorflow",
+        "deepseek",
+        "openai",
+        "anthropic",
+        "claude",
+        "ollama",
+        "assistant",
+        "chatbot",
+        "inference",
+        "generative",
+        "coding agent",
         "dataset",
         "benchmark",
     ],
@@ -39,6 +49,12 @@ CATEGORY_KEYWORDS = {
         "package manager",
         "compiler",
         "debugger",
+        "terminal",
+        "tui",
+        "ide",
+        "editor",
+        "coding",
+        "codegen",
     ],
     "infra_devops": [
         "docker",
@@ -145,25 +161,59 @@ CATEGORY_KEYWORDS = {
 }
 
 
-NOISE_TERMS = [
-    "test",
-    "tmp",
-    "temp",
-    "backup",
-    "log",
-    "logs",
-    "cdn",
-    "img",
-    "image-bed",
-    "imagebed",
-    "picgo",
-    "github.io",
-    "pages",
-    "blog",
-    "portfolio",
-    "old",
-    "dump",
+FIELD_WEIGHTS = {
+    "repo_name": 1.2,
+    "description": 2.8,
+    "topics": 3.0,
+    "primary_language": 0.7,
+    "homepage": 0.4,
+    "license_key": 0.2,
+    "readme_excerpt": 0.6,
+}
+
+
+CATEGORY_PRIORITY = [
+    "ai_ml_data",
+    "developer_tools",
+    "security_privacy",
+    "datasets_research",
+    "infra_devops",
+    "apps_products",
+    "libraries_frameworks",
+    "automation_bots_scrapers",
+    "creative_games_media",
+    "education_tutorials",
 ]
+
+
+NOISE_TERM_WEIGHTS = {
+    "smoke test": 3.0,
+    "delete after": 3.0,
+    "delete-after": 3.0,
+    "throwaway": 2.5,
+    "placeholder": 2.0,
+    "scratch": 2.0,
+    "img-bed": 2.5,
+    "image-bed": 2.5,
+    "imagebed": 2.5,
+    "picgo": 2.0,
+    "github.io": 2.0,
+    "tmp": 1.5,
+    "temp": 1.5,
+    "backup": 1.5,
+    "dump": 1.5,
+    "cdn": 1.25,
+    "img": 1.25,
+    "test": 1.25,
+    "log": 1.0,
+    "logs": 1.0,
+    "pages": 1.0,
+    "blog": 1.0,
+    "portfolio": 1.0,
+    "old": 0.75,
+}
+
+NOISE_TERMS = list(NOISE_TERM_WEIGHTS)
 
 
 @dataclass
@@ -198,30 +248,27 @@ def categorize_row(row: dict[str, Any]) -> dict[str, Any]:
 
 def classify_repo(row: dict[str, Any]) -> CategoryResult:
     text = searchable_text(row)
-    tokens = tokenize(text)
     noise_score = compute_noise_score(row, text)
     quality_score = compute_quality_score(row, noise_score)
 
     scores: dict[str, float] = {}
     reasons: dict[str, list[str]] = {}
     for category, keywords in CATEGORY_KEYWORDS.items():
-        category_score = 0.0
-        matched: list[str] = []
-        for keyword in keywords:
-            if keyword_matches(keyword, text, tokens):
-                category_score += keyword_weight(keyword)
-                matched.append(keyword)
+        category_score, matched = score_category(row, keywords)
         scores[category] = category_score
         reasons[category] = matched
 
-    best_category = max(scores, key=scores.get)
+    best_category = max(
+        scores,
+        key=lambda category: (scores[category], category_priority(category)),
+    )
     best_score = scores[best_category]
     total_score = sum(scores.values())
 
-    if noise_score >= 4.5 and quality_score < 6:
+    if noise_score >= 6.0 or (noise_score >= 4.5 and quality_score < 8):
         best_category = "personal_content_noise"
         confidence = min(1.0, noise_score / 8)
-        reason = "noise indicators: " + ", ".join(find_noise_terms(text)[:4])
+        reason = "noise indicators: " + ", ".join(noise_reasons(row, text)[:4])
     elif best_score <= 0:
         best_category = "uncategorized"
         confidence = 0.0
@@ -244,16 +291,32 @@ def classify_repo(row: dict[str, Any]) -> CategoryResult:
 
 
 def searchable_text(row: dict[str, Any]) -> str:
-    fields = [
-        "repo_name",
-        "description",
-        "homepage",
-        "primary_language",
-        "topics",
-        "license_key",
-        "readme_excerpt",
-    ]
-    return " ".join(str(row.get(field, "")).lower().replace("_", " ") for field in fields)
+    return " ".join(field_text(row, field) for field in FIELD_WEIGHTS)
+
+
+def field_text(row: dict[str, Any], field: str) -> str:
+    return str(row.get(field, "")).lower().replace("_", " ")
+
+
+def score_category(row: dict[str, Any], keywords: list[str]) -> tuple[float, list[str]]:
+    score = 0.0
+    matched: list[str] = []
+    for field, field_weight in FIELD_WEIGHTS.items():
+        text = field_text(row, field)
+        tokens = tokenize(text)
+        for keyword in keywords:
+            if keyword_matches(keyword, text, tokens):
+                score += keyword_weight(keyword) * field_weight
+                if keyword not in matched:
+                    matched.append(keyword)
+    return score, matched
+
+
+def category_priority(category: str) -> int:
+    try:
+        return len(CATEGORY_PRIORITY) - CATEGORY_PRIORITY.index(category)
+    except ValueError:
+        return 0
 
 
 def tokenize(text: str) -> set[str]:
@@ -280,7 +343,7 @@ def keyword_weight(keyword: str) -> float:
 def compute_noise_score(row: dict[str, Any], text: str) -> float:
     score = 0.0
     matched_terms = find_noise_terms(text)
-    score += min(5.0, len(matched_terms) * 1.25)
+    score += min(7.0, sum(NOISE_TERM_WEIGHTS[term] for term in matched_terms))
 
     repo_name = str(row.get("repo_name", "")).lower()
     description = str(row.get("description", "")).strip()
@@ -288,8 +351,10 @@ def compute_noise_score(row: dict[str, Any], text: str) -> float:
 
     if repo_name.endswith(".github.io") or "github.io" in repo_name:
         score += 3.0
-    if any(term in repo_name for term in ("img", "image-bed", "imagebed", "cdn", "log", "test")):
+    if any(term in repo_name for term in ("img", "image-bed", "imagebed", "cdn", "log", "test", "smoke")):
         score += 1.0
+    if str(row.get("metadata_error", "")).strip():
+        score += 3.0
     if not description:
         score += 1.0
     if not topics:
@@ -304,7 +369,24 @@ def compute_noise_score(row: dict[str, Any], text: str) -> float:
 
 
 def find_noise_terms(text: str) -> list[str]:
-    return [term for term in NOISE_TERMS if term in text]
+    tokens = tokenize(text)
+    return [term for term in NOISE_TERMS if noise_term_matches(term, text, tokens)]
+
+
+def noise_reasons(row: dict[str, Any], text: str) -> list[str]:
+    reasons = find_noise_terms(text)
+    metadata_error = str(row.get("metadata_error", "")).strip()
+    if metadata_error:
+        reasons.append(f"metadata_error:{metadata_error}")
+    if not reasons:
+        reasons.append("low metadata quality")
+    return reasons
+
+
+def noise_term_matches(term: str, text: str, tokens: set[str]) -> bool:
+    if " " in term or "." in term or "-" in term:
+        return term in text
+    return term in tokens
 
 
 def compute_quality_score(row: dict[str, Any], noise_score: float) -> float:

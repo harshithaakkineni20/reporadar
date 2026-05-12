@@ -157,7 +157,7 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--output", type=Path, default=Path("reports/discovery_report.md"))
     report_parser.add_argument("--top", type=int, default=10)
     report_parser.add_argument("--min-quality", type=float, default=5.0)
-    report_parser.add_argument("--max-noise", type=float, default=3.5)
+    report_parser.add_argument("--max-noise", type=float, default=4.0)
     report_parser.add_argument("--labels", type=Path, help="Optional human review labels CSV.")
     report_parser.set_defaults(func=report_command)
 
@@ -184,7 +184,7 @@ def build_parser() -> argparse.ArgumentParser:
     continuous_parser.add_argument("--epochs", type=int, default=50)
     continuous_parser.add_argument("--max-pairs", type=int, default=10_000)
     continuous_parser.add_argument("--min-quality", type=float, default=5.0)
-    continuous_parser.add_argument("--max-noise", type=float, default=3.5)
+    continuous_parser.add_argument("--max-noise", type=float, default=4.0)
     continuous_parser.add_argument("--labels", type=Path, default=Path("data/labels/review_labels.csv"))
     continuous_parser.add_argument("--skip-readme", action="store_true")
     continuous_parser.set_defaults(func=continuous_command)

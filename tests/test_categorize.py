@@ -64,6 +64,76 @@ class CategorizationTests(unittest.TestCase):
         self.assertEqual(rows[0]["rank"], "1")
         self.assertEqual(rows[0]["category"], "security_privacy")
 
+    def test_description_and_topics_override_readme_boilerplate(self) -> None:
+        row = {
+            "repo_name": "openclaw/openclaw",
+            "description": "Your own personal AI assistant for any OS",
+            "topics": "ai;assistant;agent;llm",
+            "primary_language": "TypeScript",
+            "readme_excerpt": "Docker CI cloud deploy instructions for contributors",
+            "license_key": "mit",
+            "score": "100",
+            "stargazers_count": "2500",
+            "forks_count": "200",
+        }
+
+        categorized = categorize_row(row)
+
+        self.assertEqual(categorized["category"], "ai_ml_data")
+        self.assertIn("assistant", categorized["category_reason"])
+
+    def test_deepseek_terminal_agent_is_ai_not_generic_library(self) -> None:
+        row = {
+            "repo_name": "Hmbown/DeepSeek-TUI",
+            "description": "Coding agent for DeepSeek models that runs in terminal",
+            "topics": "cli;deepseek;llm;rust;terminal;tui",
+            "primary_language": "Rust",
+            "readme_excerpt": "A terminal UI for model-powered coding workflows",
+            "license_key": "mit",
+            "score": "80",
+            "stargazers_count": "1000",
+            "forks_count": "50",
+        }
+
+        categorized = categorize_row(row)
+
+        self.assertEqual(categorized["category"], "ai_ml_data")
+        self.assertIn("deepseek", categorized["category_reason"])
+
+    def test_smoke_delete_after_repo_gets_noise_category(self) -> None:
+        row = {
+            "repo_name": "mtplayground/mpg-smoke-01",
+            "description": "Provisioning smoke test, delete after validation",
+            "topics": "",
+            "primary_language": "Python",
+            "readme_excerpt": "",
+            "score": "120",
+            "stars": "0",
+            "forks": "0",
+            "pushes": "3",
+        }
+
+        categorized = categorize_row(row)
+
+        self.assertEqual(categorized["category"], "personal_content_noise")
+        self.assertGreaterEqual(float(categorized["noise_score"]), 6)
+
+    def test_missing_github_metadata_gets_noise_category(self) -> None:
+        row = {
+            "repo_name": "xhjsh13-bot/xhjsh13",
+            "metadata_error": "not_found",
+            "description": "",
+            "topics": "",
+            "primary_language": "",
+            "score": "90",
+        }
+
+        categorized = categorize_row(row)
+
+        self.assertEqual(categorized["category"], "personal_content_noise")
+        self.assertGreaterEqual(float(categorized["noise_score"]), 4.5)
+        self.assertIn("metadata_error:not_found", categorized["category_reason"])
+
     def test_split_repo_name(self) -> None:
         self.assertEqual(split_repo_name("owner/repo"), ("owner", "repo"))
         with self.assertRaises(ValueError):
