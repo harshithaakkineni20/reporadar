@@ -188,7 +188,9 @@ PYTHONPATH=src python3 -m reporadar discover \
   --input outputs/discovery.csv \
   --top 10 \
   --hide-noise \
-  --hide-uncategorized
+  --hide-uncategorized \
+  --min-quality 5 \
+  --max-noise 3.5
 ```
 
 Show one category:
@@ -198,7 +200,9 @@ PYTHONPATH=src python3 -m reporadar discover \
   --input outputs/discovery.csv \
   --category ai_ml_data \
   --top 10 \
-  --hide-noise
+  --hide-noise \
+  --min-quality 5 \
+  --max-noise 3.5
 ```
 
 Current categories:

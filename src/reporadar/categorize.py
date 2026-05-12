@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from math import log1p
 from typing import Any
@@ -197,6 +198,7 @@ def categorize_row(row: dict[str, Any]) -> dict[str, Any]:
 
 def classify_repo(row: dict[str, Any]) -> CategoryResult:
     text = searchable_text(row)
+    tokens = tokenize(text)
     noise_score = compute_noise_score(row, text)
     quality_score = compute_quality_score(row, noise_score)
 
@@ -206,8 +208,8 @@ def classify_repo(row: dict[str, Any]) -> CategoryResult:
         category_score = 0.0
         matched: list[str] = []
         for keyword in keywords:
-            if keyword in text:
-                category_score += 1.0 if " " not in keyword else 1.5
+            if keyword_matches(keyword, text, tokens):
+                category_score += keyword_weight(keyword)
                 matched.append(keyword)
         scores[category] = category_score
         reasons[category] = matched
@@ -252,6 +254,27 @@ def searchable_text(row: dict[str, Any]) -> str:
         "readme_excerpt",
     ]
     return " ".join(str(row.get(field, "")).lower().replace("_", " ") for field in fields)
+
+
+def tokenize(text: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9][a-z0-9.+#-]*", text.lower()))
+
+
+def keyword_matches(keyword: str, text: str, tokens: set[str]) -> bool:
+    keyword = keyword.lower()
+    if " " in keyword:
+        return keyword in text
+    if len(keyword) <= 3:
+        return keyword in tokens
+    return keyword in tokens or keyword in text
+
+
+def keyword_weight(keyword: str) -> float:
+    if " " in keyword:
+        return 1.5
+    if len(keyword) <= 3:
+        return 1.25
+    return 1.0
 
 
 def compute_noise_score(row: dict[str, Any], text: str) -> float:

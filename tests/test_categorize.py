@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from reporadar.categorize import categorize_row, categorize_rows
+from reporadar.categorize import categorize_row, categorize_rows, keyword_matches, tokenize
 from reporadar.github_api import split_repo_name
 
 
@@ -68,6 +68,26 @@ class CategorizationTests(unittest.TestCase):
         self.assertEqual(split_repo_name("owner/repo"), ("owner", "repo"))
         with self.assertRaises(ValueError):
             split_repo_name("not-a-full-name")
+
+    def test_short_keywords_do_not_match_inside_words(self) -> None:
+        text = "available main starting application"
+        tokens = tokenize(text)
+
+        self.assertFalse(keyword_matches("ai", text, tokens))
+        self.assertFalse(keyword_matches("ml", text, tokens))
+        self.assertFalse(keyword_matches("ci", text, tokens))
+        self.assertFalse(keyword_matches("api", text, tokens))
+        self.assertFalse(keyword_matches("art", text, tokens))
+
+    def test_short_keywords_match_as_tokens(self) -> None:
+        text = "ai ml ci api art"
+        tokens = tokenize(text)
+
+        self.assertTrue(keyword_matches("ai", text, tokens))
+        self.assertTrue(keyword_matches("ml", text, tokens))
+        self.assertTrue(keyword_matches("ci", text, tokens))
+        self.assertTrue(keyword_matches("api", text, tokens))
+        self.assertTrue(keyword_matches("art", text, tokens))
 
 
 if __name__ == "__main__":

@@ -141,6 +141,9 @@ def build_parser() -> argparse.ArgumentParser:
     discover_parser.add_argument("--top", type=int, default=10)
     discover_parser.add_argument("--hide-noise", action="store_true")
     discover_parser.add_argument("--hide-uncategorized", action="store_true")
+    discover_parser.add_argument("--min-quality", type=float, default=0.0)
+    discover_parser.add_argument("--max-noise", type=float)
+    discover_parser.add_argument("--min-confidence", type=float, default=0.0)
     discover_parser.set_defaults(func=discover_command)
 
     return parser
@@ -365,6 +368,13 @@ def discover_command(args: argparse.Namespace) -> None:
         rows = [row for row in rows if row.get("category") != "personal_content_noise"]
     if args.hide_uncategorized:
         rows = [row for row in rows if row.get("category") != "uncategorized"]
+    rows = [
+        row
+        for row in rows
+        if float(row.get("quality_score") or 0) >= args.min_quality
+        and float(row.get("category_confidence") or 0) >= args.min_confidence
+        and (args.max_noise is None or float(row.get("noise_score") or 0) <= args.max_noise)
+    ]
     if args.category != "all":
         rows = [row for row in rows if row.get("category") == args.category]
 
