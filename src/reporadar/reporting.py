@@ -22,22 +22,32 @@ def build_discovery_report(
     filtered.sort(key=lambda row: -as_float(row, "discovery_score"))
 
     category_counts = Counter(row.get("category", "uncategorized") for row in rows)
+    noise_count = category_counts.get("personal_content_noise", 0)
+    uncategorized_count = category_counts.get("uncategorized", 0)
     report_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     lines = [
-        "# RepoRadar Discovery Report",
+        "# RepoRadar Discovery Review",
         "",
         f"Generated: {report_time}",
         f"Source: `{source_name}`",
         "",
-        "## Summary",
+        "## How To Read This",
+        "",
+        "This report is a review queue, not a final truth list. RepoRadar first ranks repositories by activity momentum, then enriches the highest-ranked repos with GitHub metadata, labels their likely use case, and filters obvious noise.",
+        "",
+        "Your job as the reviewer is to ask: Is this repo a real useful project, is the category right, and should RepoRadar promote, hide, or relabel similar repos next time?",
+        "",
+        "## What Happened",
         "",
         f"- Repositories analyzed: {len(rows)}",
         f"- Discovery candidates after filters: {len(filtered)}",
+        f"- Repos labeled as noise: {noise_count}",
+        f"- Repos left uncategorized: {uncategorized_count}",
         f"- Minimum quality: {min_quality}",
         f"- Maximum noise: {max_noise}",
         "",
-        "## Category Counts",
+        "## Category Mix",
         "",
         "| Category | Count |",
         "|---|---:|",
@@ -49,35 +59,55 @@ def build_discovery_report(
     lines.extend(
         [
             "",
-            "## Top Discovery Candidates",
+            "## Candidate Cards",
             "",
-            "| Rank | Repo | Category | Discovery | Quality | Noise | Why |",
-            "|---:|---|---|---:|---:|---:|---|",
         ]
     )
 
     for index, row in enumerate(filtered[:top], start=1):
-        repo = row.get("repo_name", "")
-        url = row.get("html_url", "")
-        repo_link = f"[{repo}]({url})" if url else f"`{repo}`"
-        lines.append(
-            "| "
-            f"{index} | {repo_link} | `{row.get('category', '')}` | "
-            f"{as_float(row, 'discovery_score'):.3f} | "
-            f"{as_float(row, 'quality_score'):.3f} | "
-            f"{as_float(row, 'noise_score'):.3f} | "
-            f"{escape_table(row.get('category_reason', ''))} |"
-        )
+        lines.extend(candidate_card(row, index))
 
     if not filtered:
-        lines.append("| - | No candidates passed the filters. | - | - | - | - | - |")
+        lines.append("No candidates passed the current filters. Try lowering `--min-quality`, raising `--max-noise`, or enriching more ranked repositories.")
 
     lines.extend(
         [
             "",
-            "## Notes",
+            "## What To Check Manually",
+            "",
+            "For each candidate, answer:",
+            "",
+            "1. Is this a real reusable tool, dataset, app, or library?",
+            "2. Is the assigned category correct?",
+            "3. Would a developer actually want to discover this?",
+            "4. Did the model overvalue raw activity, vague keywords, or noisy metadata?",
+            "5. Should similar repos be promoted, hidden, or relabeled?",
+            "",
+            "## If You Run This Again Next Week",
+            "",
+            "If you use the same downloaded GH Archive files, the output should be mostly the same because the input data is the same.",
+            "",
+            "If you fetch newer GH Archive data seven days later, RepoRadar will rank a new slice of GitHub activity. Some repos may repeat if they keep gaining momentum, but many should change because the event stream changed.",
+            "",
+            "Use a new dated raw-data folder for each run. If you keep adding files to the same directory, RepoRadar will analyze the combined old and new data.",
+            "",
+            "The practical user value is a weekly discovery brief: instead of browsing GitHub Trending manually, a user can ask RepoRadar for fresh candidates by category, hide noisy repos, and inspect a short list of emerging projects.",
+            "",
+            "Typical weekly flow:",
+            "",
+            "```bash",
+            "PYTHONPATH=src python3 -m reporadar fetch-range --start-date YYYY-MM-DD --end-date YYYY-MM-DD --hours 0 1 2 --output data/raw/gharchive/YYYY-MM-DD",
+            "PYTHONPATH=src python3 -m reporadar rank --input data/raw/gharchive/YYYY-MM-DD --model outputs/gharchive_ranker.json --observation-hours 2 --target-hours 1 --output outputs/gharchive_rankings.csv",
+            "PYTHONPATH=src python3 -m reporadar enrich --rankings outputs/gharchive_rankings.csv --output data/processed/enriched_repos.csv --top 50",
+            "PYTHONPATH=src python3 -m reporadar categorize --input data/processed/enriched_repos.csv --output outputs/discovery.csv",
+            "PYTHONPATH=src python3 -m reporadar report --input outputs/discovery.csv --output reports/discovery_report.md",
+            "```",
+            "",
+            "## Model Notes",
             "",
             "- `discovery_score` combines model momentum, metadata quality, and noise penalties.",
+            "- `quality_score` rewards useful metadata such as description, topics, README, license, language, stars, forks, PRs, and issues.",
+            "- `noise_score` penalizes signals common in test repos, image beds, personal pages, logs, backups, and generated content.",
             "- `personal_content_noise` catches test repos, image beds, logs, blogs, and similar low-discovery-value repos.",
             "- This report is generated from a small top-N enrichment pass, so results improve as more ranked repos are enriched.",
             "",
@@ -92,6 +122,29 @@ def write_report(markdown: str, path: Path) -> None:
     path.write_text(markdown, encoding="utf-8")
 
 
+def candidate_card(row: dict[str, str], index: int) -> list[str]:
+    repo = row.get("repo_name", "")
+    url = row.get("html_url", "")
+    repo_title = f"[{repo}]({url})" if url else f"`{repo}`"
+    description = row.get("description", "").strip() or "No description available."
+    topics = format_topics(row.get("topics", ""))
+    language = row.get("primary_language", "").strip() or "unknown"
+    license_key = row.get("license_key", "").strip() or "unknown"
+
+    return [
+        f"### {index}. {repo_title}",
+        "",
+        f"- Category: `{row.get('category', '')}`",
+        f"- Why it surfaced: {row.get('category_reason', '')}",
+        f"- Scores: discovery `{as_float(row, 'discovery_score'):.3f}`, quality `{as_float(row, 'quality_score'):.3f}`, noise `{as_float(row, 'noise_score'):.3f}`",
+        f"- Description: {description}",
+        f"- Metadata: language `{language}`, license `{license_key}`, stars `{as_int(row, 'stargazers_count')}`, forks `{as_int(row, 'forks_count')}`, open issues `{as_int(row, 'open_issues_count')}`",
+        f"- Topics: {topics}",
+        "- Manual review: keep / reject / relabel?",
+        "",
+    ]
+
+
 def as_float(row: dict[str, str], key: str) -> float:
     value = row.get(key, "")
     if value in ("", None):
@@ -102,5 +155,12 @@ def as_float(row: dict[str, str], key: str) -> float:
         return 0.0
 
 
-def escape_table(value: str) -> str:
-    return value.replace("|", "\\|").replace("\n", " ")
+def as_int(row: dict[str, str], key: str) -> int:
+    return int(as_float(row, key))
+
+
+def format_topics(value: str) -> str:
+    topics = [topic for topic in value.split(";") if topic]
+    if not topics:
+        return "none"
+    return ", ".join(f"`{topic}`" for topic in topics[:8])

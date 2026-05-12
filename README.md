@@ -216,6 +216,27 @@ PYTHONPATH=src python3 -m reporadar report \
   --max-noise 3.5
 ```
 
+The report is designed as a human review document. It explains what happened, shows candidate cards with descriptions and metadata, and gives manual review questions so you can decide whether the model is surfacing genuinely useful repositories.
+
+For weekly use, fetch into a dated folder so each report analyzes one fresh time slice:
+
+```bash
+PYTHONPATH=src python3 -m reporadar fetch-range \
+  --start-date 2026-05-10 \
+  --end-date 2026-05-10 \
+  --hours 0 1 2 \
+  --output data/raw/gharchive/2026-05-10
+
+PYTHONPATH=src python3 -m reporadar rank \
+  --input data/raw/gharchive/2026-05-10 \
+  --model outputs/gharchive_ranker.json \
+  --observation-hours 2 \
+  --target-hours 1 \
+  --output outputs/gharchive_rankings.csv
+```
+
+If you run the same downloaded files again, results should be mostly the same. If you fetch newer GH Archive files seven days later, the ranked repos should change because GitHub activity changed.
+
 Current categories:
 
 - `ai_ml_data`

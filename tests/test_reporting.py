@@ -29,10 +29,13 @@ class ReportingTests(unittest.TestCase):
 
         markdown = build_discovery_report(rows, source_name="outputs/discovery.csv", top=5)
 
-        self.assertIn("# RepoRadar Discovery Report", markdown)
+        self.assertIn("# RepoRadar Discovery Review", markdown)
         self.assertIn("Repositories analyzed: 2", markdown)
+        self.assertIn("How To Read This", markdown)
         self.assertIn("[hyperspaceai/agi]", markdown)
         self.assertIn("personal_content_noise", markdown)
+        self.assertIn("Manual review: keep / reject / relabel?", markdown)
+        self.assertIn("If You Run This Again Next Week", markdown)
 
 
 if __name__ == "__main__":
