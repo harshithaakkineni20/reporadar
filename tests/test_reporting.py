@@ -16,6 +16,9 @@ class ReportingTests(unittest.TestCase):
                 "quality_score": "13.8",
                 "noise_score": "1.5",
                 "category_reason": "matched: ai, llm, agent",
+                "human_label": "keep",
+                "human_reason": "Active and interesting AI repo.",
+                "reviewed_at": "2026-05-12",
             },
             {
                 "repo_name": "user/my-img-bed",
@@ -34,7 +37,9 @@ class ReportingTests(unittest.TestCase):
         self.assertIn("How To Read This", markdown)
         self.assertIn("[hyperspaceai/agi]", markdown)
         self.assertIn("personal_content_noise", markdown)
-        self.assertIn("Manual review: keep / reject / relabel?", markdown)
+        self.assertIn("Human-reviewed candidates: 1", markdown)
+        self.assertIn("Human review: `keep`", markdown)
+        self.assertIn("Next review action: keep / reject / relabel?", markdown)
         self.assertIn("If You Run This Again Next Week", markdown)
 
 

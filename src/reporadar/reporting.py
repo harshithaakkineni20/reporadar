@@ -42,6 +42,7 @@ def build_discovery_report(
         "",
         f"- Repositories analyzed: {len(rows)}",
         f"- Discovery candidates after filters: {len(filtered)}",
+        f"- Human-reviewed candidates: {human_review_count(rows)}",
         f"- Repos labeled as noise: {noise_count}",
         f"- Repos left uncategorized: {uncategorized_count}",
         f"- Minimum quality: {min_quality}",
@@ -136,11 +137,12 @@ def candidate_card(row: dict[str, str], index: int) -> list[str]:
         "",
         f"- Category: `{row.get('category', '')}`",
         f"- Why it surfaced: {row.get('category_reason', '')}",
+        f"- Human review: {format_human_review(row)}",
         f"- Scores: discovery `{as_float(row, 'discovery_score'):.3f}`, quality `{as_float(row, 'quality_score'):.3f}`, noise `{as_float(row, 'noise_score'):.3f}`",
         f"- Description: {description}",
         f"- Metadata: language `{language}`, license `{license_key}`, stars `{as_int(row, 'stargazers_count')}`, forks `{as_int(row, 'forks_count')}`, open issues `{as_int(row, 'open_issues_count')}`",
         f"- Topics: {topics}",
-        "- Manual review: keep / reject / relabel?",
+        "- Next review action: keep / reject / relabel?",
         "",
     ]
 
@@ -164,3 +166,19 @@ def format_topics(value: str) -> str:
     if not topics:
         return "none"
     return ", ".join(f"`{topic}`" for topic in topics[:8])
+
+
+def human_review_count(rows: list[dict[str, str]]) -> int:
+    return sum(1 for row in rows if row.get("human_label"))
+
+
+def format_human_review(row: dict[str, str]) -> str:
+    label = row.get("human_label", "").strip()
+    if not label:
+        return "not reviewed yet"
+    reason = row.get("human_reason", "").strip()
+    reviewed_at = row.get("reviewed_at", "").strip()
+    suffix = f" on {reviewed_at}" if reviewed_at else ""
+    if reason:
+        return f"`{label}`{suffix} - {reason}"
+    return f"`{label}`{suffix}"

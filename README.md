@@ -211,12 +211,21 @@ Generate a Markdown experiment report:
 PYTHONPATH=src python3 -m reporadar report \
   --input outputs/discovery.csv \
   --output reports/discovery_report.md \
+  --labels data/labels/review_labels.csv \
   --top 10 \
   --min-quality 5 \
   --max-noise 3.5
 ```
 
 The report is designed as a human review document. It explains what happened, shows candidate cards with descriptions and metadata, and gives manual review questions so you can decide whether the model is surfacing genuinely useful repositories.
+
+Human feedback lives in:
+
+```text
+data/labels/review_labels.csv
+```
+
+Use labels like `keep`, `reject`, or `relabel`. These labels let future reports remember reviewer judgment and create the foundation for a stronger supervised ranking model later.
 
 For weekly use, fetch into a dated folder so each report analyzes one fresh time slice:
 

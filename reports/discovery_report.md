@@ -1,6 +1,6 @@
 # RepoRadar Discovery Review
 
-Generated: 2026-05-12 09:11 UTC
+Generated: 2026-05-12 10:49 UTC
 Source: `outputs/discovery.csv`
 
 ## How To Read This
@@ -13,6 +13,7 @@ Your job as the reviewer is to ask: Is this repo a real useful project, is the c
 
 - Repositories analyzed: 50
 - Discovery candidates after filters: 4
+- Human-reviewed candidates: 4
 - Repos labeled as noise: 20
 - Repos left uncategorized: 14
 - Minimum quality: 5.0
@@ -39,41 +40,45 @@ Your job as the reviewer is to ask: Is this repo a real useful project, is the c
 
 - Category: `ai_ml_data`
 - Why it surfaced: matched: ai, llm, agent, transformer, model
+- Human review: `keep` on 2026-05-12 - Active and interesting AI/agent repo; keep as a good discovery candidate.
 - Scores: discovery `39.239`, quality `13.800`, noise `1.500`
 - Description: The first distributed AGI system. Thousands of autonomous AI agents collaboratively train models, share experiments via P2P gossip, and push breakthroughs here. Fully peer-to-peer. Join from your browser or CLI.
 - Metadata: language `unknown`, license `mit`, stars `1650`, forks `180`, open issues `19`
 - Topics: `agi`, `ai-agents`, `ai-research`, `artificial-general-intelligence`, `autonomous-agents`, `autonomous-agents-`, `autoresearch`, `collaborative-ai`
-- Manual review: keep / reject / relabel?
+- Next review action: keep / reject / relabel?
 
 ### 2. [antirez/ds4](https://github.com/antirez/ds4)
 
 - Category: `ai_ml_data`
 - Why it surfaced: matched: agent, vector, model
+- Human review: `keep` on 2026-05-12 - Active and technically interesting local inference repo; keep.
 - Scores: discovery `29.497`, quality `11.400`, noise `3.250`
 - Description: DeepSeek 4 Flash local inference engine for Metal and CUDA
 - Metadata: language `C`, license `mit`, stars `7708`, forks `589`, open issues `41`
 - Topics: none
-- Manual review: keep / reject / relabel?
+- Next review action: keep / reject / relabel?
 
 ### 3. [SoliSpirit/proxy-list](https://github.com/SoliSpirit/proxy-list)
 
 - Category: `developer_tools`
 - Why it surfaced: matched: tool
+- Human review: `keep` on 2026-05-12 - Active utility repo with clear developer use case; keep.
 - Scores: discovery `29.464`, quality `8.772`, noise `2.250`
 - Description: An automated proxy list that updates every 3 hours with HTTP, HTTPS, SOCKS4, and SOCKS5 proxies from multiple countries.
 - Metadata: language `unknown`, license `unknown`, stars `69`, forks `9`, open issues `0`
 - Topics: none
-- Manual review: keep / reject / relabel?
+- Next review action: keep / reject / relabel?
 
 ### 4. [openclaw/clawsweeper-state](https://github.com/openclaw/clawsweeper-state)
 
 - Category: `developer_tools`
 - Why it surfaced: matched: tool
+- Human review: `keep` on 2026-05-12 - Active repo and useful enough to keep for review despite sparse metadata.
 - Scores: discovery `23.807`, quality `5.485`, noise `3.250`
 - Description: No description available.
 - Metadata: language `JavaScript`, license `mit`, stars `8`, forks `4`, open issues `0`
 - Topics: none
-- Manual review: keep / reject / relabel?
+- Next review action: keep / reject / relabel?
 
 
 ## What To Check Manually

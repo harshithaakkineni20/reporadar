@@ -5,6 +5,7 @@ from datetime import date
 from pathlib import Path
 
 from reporadar.categorize import categorize_rows
+from reporadar.feedback import attach_feedback, read_feedback
 from reporadar.features import (
     build_dataset_rows,
     build_feature_rows,
@@ -156,6 +157,7 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--top", type=int, default=10)
     report_parser.add_argument("--min-quality", type=float, default=5.0)
     report_parser.add_argument("--max-noise", type=float, default=3.5)
+    report_parser.add_argument("--labels", type=Path, help="Optional human review labels CSV.")
     report_parser.set_defaults(func=report_command)
 
     return parser
@@ -426,6 +428,7 @@ def report_command(args: argparse.Namespace) -> None:
     rows = read_rows_csv(args.input)
     if not rows:
         raise SystemExit("No rows found.")
+    rows = attach_feedback(rows, read_feedback(args.labels))
 
     markdown = build_discovery_report(
         rows,

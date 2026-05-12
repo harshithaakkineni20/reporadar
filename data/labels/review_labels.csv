@@ -1,0 +1,5 @@
+repo_name,label,corrected_category,reason,reviewed_at
+hyperspaceai/agi,keep,ai_ml_data,"Active and interesting AI/agent repo; keep as a good discovery candidate.",2026-05-12
+antirez/ds4,keep,ai_ml_data,"Active and technically interesting local inference repo; keep.",2026-05-12
+SoliSpirit/proxy-list,keep,developer_tools,"Active utility repo with clear developer use case; keep.",2026-05-12
+openclaw/clawsweeper-state,keep,developer_tools,"Active repo and useful enough to keep for review despite sparse metadata.",2026-05-12
