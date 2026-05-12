@@ -13,6 +13,7 @@ build/
 data/raw/
 data/processed/
 outputs/
+runs/
 
 .env
 .env.*

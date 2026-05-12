@@ -1,0 +1,48 @@
+name: RepoRadar Continuous Discovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_date:
+        description: "UTC date to analyze, for example 2026-05-11. Leave blank for yesterday UTC."
+        required: false
+        type: string
+  schedule:
+    - cron: "30 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      PYTHONPATH: src
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        run: python -m unittest discover -s tests
+
+      - name: Run continuous discovery
+        run: |
+          if [ -n "${{ inputs.run_date }}" ]; then
+            python -m reporadar continuous --run-date "${{ inputs.run_date }}"
+          else
+            python -m reporadar continuous
+          fi
+
+      - name: Upload discovery run
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporadar-discovery-run
+          path: runs/reporadar/
+          retention-days: 14

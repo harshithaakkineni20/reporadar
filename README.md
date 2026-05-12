@@ -160,6 +160,50 @@ Start small with a few hours first. GH Archive files can be large.
 
 Source: https://www.gharchive.org/
 
+## Continuous Discovery
+
+RepoRadar can run continuously as a scheduled GitHub Actions workflow. In this project, "continuous" means scheduled monitoring: GitHub runs the pipeline automatically, fetches a fresh GH Archive time slice, ranks repositories, enriches the top candidates, categorizes them, and uploads a discovery report.
+
+The workflow lives at:
+
+```text
+.github/workflows/reporadar-continuous.yml
+```
+
+It runs every Monday at `03:30 UTC`, and it can also be started manually from the GitHub Actions tab.
+
+Manual run from GitHub:
+
+```text
+Actions -> RepoRadar Continuous Discovery -> Run workflow
+```
+
+Manual run from your terminal:
+
+```bash
+PYTHONPATH=src python3 -m reporadar continuous \
+  --run-date 2026-05-11 \
+  --hours 0 1 2 3 4 5
+```
+
+Each continuous run writes a dated folder:
+
+```text
+runs/reporadar/YYYY-MM-DD/
+```
+
+That folder contains:
+
+- raw GH Archive files
+- training rows
+- trained ranker
+- ranked repositories
+- enriched metadata
+- categorized discovery CSV
+- Markdown discovery report
+
+If the workflow runs on a new date, the results should change because GitHub activity changed. If you run the same date and same hours again, the output should be mostly the same.
+
 ## Category-Aware Discovery
 
 Raw activity ranking can surface noisy repositories: image beds, test apps, personal sites, logs, mirrors, and generated content. RepoRadar adds a discovery layer that enriches top-ranked repositories with GitHub metadata, categorizes their use case, and separates noisy repos from useful discovery candidates.

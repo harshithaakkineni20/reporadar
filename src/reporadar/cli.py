@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from reporadar.categorize import categorize_rows
@@ -18,6 +18,7 @@ from reporadar.github_api import GitHubClient, enrich_repo
 from reporadar.io import (
     read_rankings_csv,
     read_rows_csv,
+    write_rows_csv,
     write_dataset_csv,
     write_enriched_csv,
     write_rankings_csv,
@@ -159,6 +160,34 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--max-noise", type=float, default=3.5)
     report_parser.add_argument("--labels", type=Path, help="Optional human review labels CSV.")
     report_parser.set_defaults(func=report_command)
+
+    continuous_parser = subparsers.add_parser(
+        "continuous",
+        help="Run the full scheduled discovery pipeline for one date.",
+    )
+    continuous_parser.add_argument(
+        "--run-date",
+        help="UTC date to analyze. Defaults to yesterday UTC.",
+    )
+    continuous_parser.add_argument(
+        "--hours",
+        nargs="+",
+        type=int,
+        default=[0, 1, 2, 3, 4, 5],
+        help="UTC hours to fetch. Defaults to 0-5.",
+    )
+    continuous_parser.add_argument("--workspace", type=Path, default=Path("runs/reporadar"))
+    continuous_parser.add_argument("--top", type=int, default=50)
+    continuous_parser.add_argument("--observation-hours", type=int, default=2)
+    continuous_parser.add_argument("--target-hours", type=int, default=1)
+    continuous_parser.add_argument("--stride-hours", type=int, default=1)
+    continuous_parser.add_argument("--epochs", type=int, default=50)
+    continuous_parser.add_argument("--max-pairs", type=int, default=10_000)
+    continuous_parser.add_argument("--min-quality", type=float, default=5.0)
+    continuous_parser.add_argument("--max-noise", type=float, default=3.5)
+    continuous_parser.add_argument("--labels", type=Path, default=Path("data/labels/review_labels.csv"))
+    continuous_parser.add_argument("--skip-readme", action="store_true")
+    continuous_parser.set_defaults(func=continuous_command)
 
     return parser
 
@@ -439,6 +468,125 @@ def report_command(args: argparse.Namespace) -> None:
     )
     write_report(markdown, args.output)
     print(f"Wrote discovery report to {args.output}")
+
+
+def continuous_command(args: argparse.Namespace) -> None:
+    run_day = (
+        date.fromisoformat(args.run_date)
+        if args.run_date
+        else (datetime.now(timezone.utc).date() - timedelta(days=1))
+    )
+    run_dir = args.workspace / run_day.isoformat()
+    raw_dir = run_dir / "raw"
+    dataset_path = run_dir / "training_rows.csv"
+    model_path = run_dir / "ranker.json"
+    rankings_path = run_dir / "rankings.csv"
+    enriched_path = run_dir / "enriched_repos.csv"
+    discovery_path = run_dir / "discovery.csv"
+    report_path = run_dir / "discovery_report.md"
+
+    print(f"RepoRadar continuous run for {run_day.isoformat()}")
+    print(f"Run directory: {run_dir}")
+
+    print("\n[1/7] Fetch GH Archive files")
+    for hour in args.hours:
+        path = fetch_archive(run_day, hour, raw_dir)
+        print(f"- {path}")
+
+    print("\n[2/7] Load events")
+    events = list(iter_events([raw_dir]))
+    if not events:
+        raise SystemExit("No events found after fetch.")
+    print(f"events={len(events)}")
+
+    print("\n[3/7] Build rolling training rows")
+    cutoffs = generate_cutoffs(
+        events,
+        observation_hours=args.observation_hours,
+        target_hours=args.target_hours,
+        stride_hours=args.stride_hours,
+    )
+    dataset_rows = build_dataset_rows(
+        events,
+        cutoffs=cutoffs,
+        observation_hours=args.observation_hours,
+        target_hours=args.target_hours,
+    )
+    if not dataset_rows:
+        raise SystemExit("No training rows created.")
+    write_dataset_csv(dataset_rows, dataset_path)
+    print(f"rows={len(dataset_rows)} cutoffs={len(cutoffs)} path={dataset_path}")
+
+    print("\n[4/7] Train pairwise ranker")
+    model = train_pairwise_ranker(
+        dataset_rows,
+        epochs=args.epochs,
+        max_pairs=args.max_pairs,
+    )
+    model.save(model_path)
+    print(f"model={model_path}")
+    print(f"training_pairwise_accuracy={pairwise_accuracy(dataset_rows, model):.3f}")
+
+    print("\n[5/7] Rank repositories")
+    cutoff = infer_cutoff(events)
+    feature_rows = build_feature_rows(
+        events,
+        cutoff=cutoff,
+        target_hours=args.target_hours,
+        observation_hours=args.observation_hours,
+    )
+    ranked = rank_repositories(feature_rows, scorer=model.score)
+    write_rankings_csv(ranked, rankings_path)
+    print(f"ranked_repos={len(ranked)} path={rankings_path}")
+
+    print("\n[6/7] Enrich and categorize top repos")
+    client = GitHubClient.from_environment()
+    enriched_rows = []
+    for index, row in enumerate(ranked[: args.top], start=1):
+        repo_name = row.get("repo_name", "")
+        metadata = enrich_repo(
+            repo_name,
+            client=client,
+            include_readme=not args.skip_readme,
+        )
+        enriched = dict(row)
+        enriched.update(metadata)
+        enriched_rows.append(enriched)
+        print(f"[{index}/{min(args.top, len(ranked))}] {repo_name}")
+
+    write_enriched_csv(enriched_rows, enriched_path)
+    categorized = categorize_rows(enriched_rows)
+    categorized.sort(key=lambda row: -float(row.get("discovery_score") or 0))
+    write_enriched_csv(categorized, discovery_path)
+    print(f"enriched={len(enriched_rows)} discovery={discovery_path}")
+
+    print("\n[7/7] Write report")
+    labeled_rows = attach_feedback(categorized, read_feedback(args.labels))
+    markdown = build_discovery_report(
+        labeled_rows,
+        source_name=str(discovery_path),
+        top=args.top,
+        min_quality=args.min_quality,
+        max_noise=args.max_noise,
+    )
+    write_report(markdown, report_path)
+    print(f"report={report_path}")
+
+    summary_path = run_dir / "summary.txt"
+    write_rows_csv(
+        [
+            {
+                "run_date": run_day.isoformat(),
+                "events": len(events),
+                "training_rows": len(dataset_rows),
+                "ranked_repos": len(ranked),
+                "enriched_repos": len(enriched_rows),
+                "report": report_path,
+            }
+        ],
+        summary_path,
+    )
+    print(f"summary={summary_path}")
 
 
 def load_model(path: Path) -> PairwiseLinearRanker:
