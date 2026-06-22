@@ -249,3 +249,53 @@ run_date,repo_name,rank,category,category_confidence,discovery_score,quality_sco
 2026-06-14,krishnbang/adad,48,uncategorized,0.000,15.832,0.000,3.250,53.2072,13.9,,https://github.com/krishnbang/adad,,,,0,0,0,no strong category keywords
 2026-06-14,alksnd/trinity,49,personal_content_noise,0.562,12.993,0.400,4.500,52.1915,0.0,,https://github.com/alksnd/trinity,,Python,,0,0,8,noise indicators: img
 2026-06-14,hetdoom/brf,50,uncategorized,0.000,15.715,0.000,3.250,52.1592,29.8,,https://github.com/hetdoom/brf,,,,0,0,0,no strong category keywords
+2026-06-21,yurii-spa/SPA,1,personal_content_noise,0.688,25.450,2.031,5.500,489.1493,13.9,,https://github.com/yurii-spa/SPA,Smart Passive Aggregator — DeFi yield management system,Python,,4,0,0,"noise indicators: test, log, portfolio"
+2026-06-21,iamdeveco/itemdata,2,datasets_research,1.000,28.367,0.000,3.250,436.9133,94.6,,https://github.com/iamdeveco/itemdata,,,,0,0,0,matched: data
+2026-06-21,bolividob/bibkreyol-comments-data,3,personal_content_noise,0.562,24.448,0.524,4.500,350.5611,46.6,,https://github.com/bolividob/bibkreyol-comments-data,Bib Kreyol daily comments data store,,,0,1,0,"noise indicators: img, pages"
+2026-06-21,gxjishou/my-img-bed3,4,personal_content_noise,0.844,17.208,0.000,6.750,292.0983,56.4,,https://github.com/gxjishou/my-img-bed3,,,,0,0,0,noise indicators: img-bed
+2026-06-21,merge-demo/mergequeue-st,5,automation_bots_scrapers,0.704,28.778,4.018,3.500,265.4044,0.0,,https://github.com/merge-demo/mergequeue-st,Pointing to staging,Python,,2,0,4212,"matched: bot, workflow, github action, cron"
+2026-06-21,Sepevalle/SoloQ-Cerditos,6,uncategorized,0.000,24.302,0.000,3.250,221.3938,46.7,,https://github.com/Sepevalle/SoloQ-Cerditos,,HTML,,0,0,0,no strong category keywords
+2026-06-21,r0cksteadyw00t/plex-logs,7,developer_tools,1.000,22.762,1.100,4.250,216.2756,42.9,,https://github.com/r0cksteadyw00t/plex-logs,Automated logs + triage from PlexTools,JavaScript,,0,0,2,matched: tool
+2026-06-21,gaston1799/RobloxLua,8,creative_games_media,1.000,24.137,0.000,3.250,215.357,42.4,,https://github.com/gaston1799/RobloxLua,,Lua,,1,1,5,matched: roblox
+2026-06-21,gagankhail/sdsf,9,uncategorized,0.000,22.892,0.000,3.250,174.8164,36.3,,https://github.com/gagankhail/sdsf,,,,0,0,0,no strong category keywords
+2026-06-21,mibl2ltejh60/sdfg,10,uncategorized,0.000,22.566,0.000,3.250,165.5398,35.7,,https://github.com/mibl2ltejh60/sdfg,,,,0,0,0,no strong category keywords
+2026-06-21,mahfouzmarket/mahfouz_system,11,uncategorized,0.000,26.102,1.200,2.250,161.0495,24.7,,https://github.com/mahfouzmarket/mahfouz_system,mahfouz_system,JavaScript,,0,0,0,no strong category keywords
+2026-06-21,christofto/sdsdfasd,12,uncategorized,0.000,22.295,0.000,3.250,158.1714,33.9,,https://github.com/christofto/sdsdfasd,,,,0,0,0,no strong category keywords
+2026-06-21,CodeHub-Clients/CodeHub_Licenses,13,uncategorized,0.000,21.969,0.000,3.250,149.7629,31.9,,https://github.com/CodeHub-Clients/CodeHub_Licenses,,,,0,1,2,no strong category keywords
+2026-06-21,johnnyrodriguezdk/arkey,14,uncategorized,0.000,19.331,0.000,4.250,146.33,0.0,,https://github.com/johnnyrodriguezdk/arkey,,,,0,0,0,no strong category keywords
+2026-06-21,essentials-prod/essentials,15,uncategorized,0.000,21.600,0.000,3.250,140.7527,0.0,,https://github.com/essentials-prod/essentials,,HTML,,0,0,0,no strong category keywords
+2026-06-21,QComputingSoftware/pypi-qiskit-connector,16,developer_tools,0.358,35.070,9.355,1.500,134.7556,0.0,,https://github.com/QComputingSoftware/pypi-qiskit-connector,"Qiskit connector is quantum computing SDK extension which is a helper for Qiskit runtime service that streamlines authentication, plan detection, and backend selection for quantum computing algorithms. using Qiskit connector intelligence Core.",Jupyter Notebook,jeffrey-solomon-chijioke-uche;pypi;pypi-package;python;qiskit;qiskit-connector;quantum;quantum-chemistry;quantum-computing;quantum-mechanics,4,1,0,"matched: sdk, extension, tool, build"
+2026-06-21,patra3859-wq/PS-EB9195,17,uncategorized,0.000,21.165,0.000,3.250,130.8505,0.0,,https://github.com/patra3859-wq/PS-EB9195,,,,0,0,0,no strong category keywords
+2026-06-21,chenxi750328ai/agent-jianghu,18,personal_content_noise,0.562,25.596,7.724,4.500,127.2164,25.9,,https://github.com/chenxi750328ai/agent-jianghu,agent江湖 - 多Agent协作平台,Python,multi-agent,6,2,7,"noise indicators: github.io, pages"
+2026-06-21,loganfoxdale/d3,19,personal_content_noise,0.688,15.018,0.000,5.500,119.8699,22.2,,https://github.com/loganfoxdale/d3,,JavaScript,,0,0,0,noise indicators: img
+2026-06-21,RaisingGods/impact.pulse,20,developer_tools,0.500,25.776,2.700,2.250,118.5147,23.9,,https://github.com/RaisingGods/impact.pulse,media monitoring & social listening tool,HTML,,0,0,0,matched: tool
+2026-06-21,tomevault-io/skills-registry,21,ai_ml_data,0.729,26.011,2.948,2.250,118.2652,41.1,,https://github.com/tomevault-io/skills-registry,AI instruction files in SKILL.md format — indexed by Skills.sh and SkillsMP,,,0,3,1,"matched: ai, claude"
+2026-06-21,tarek-io/lifeos-calendar-feed,22,uncategorized,0.000,19.584,0.000,3.500,111.4347,16.3,,https://github.com/tarek-io/lifeos-calendar-feed,Public LifeOS calendar feed test,,,0,0,0,no strong category keywords
+2026-06-21,ygg2028/qxsqfd,23,uncategorized,0.000,20.197,0.000,3.250,111.1983,17.7,,https://github.com/ygg2028/qxsqfd,,,,0,0,0,no strong category keywords
+2026-06-21,Skailex239/TheFrontStats,24,uncategorized,0.000,17.695,0.000,4.250,111.1772,24.8,,https://github.com/Skailex239/TheFrontStats,"🏆 Stats website for OpenFront.io — Leaderboards, Clans, Ranked ELO, Player Profiles & more | Next.js 16",JavaScript,,0,0,0,no strong category keywords
+2026-06-21,sparlingi/sdyoxt,25,uncategorized,0.000,19.828,0.000,3.250,104.5147,0.0,,https://github.com/sparlingi/sdyoxt,,,,0,0,0,no strong category keywords
+2026-06-21,AndersNBE/kereby-scraper,26,automation_bots_scrapers,1.000,24.609,2.518,2.250,100.4275,22.5,,https://github.com/AndersNBE/kereby-scraper,Scraper kereby,Python,,2,0,0,matched: scraper
+2026-06-21,Vecens/Signal-Permafrost,27,apps_products,0.385,24.328,2.324,2.250,98.9678,9.3,,https://github.com/Vecens/Signal-Permafrost,"The Semantic Strata, The Human semantic deposition layer",,,0,1,1,matched: web
+2026-06-21,sunil-chandra16/testrepo09,28,uncategorized,0.000,16.989,0.000,4.250,98.7184,20.6,,https://github.com/sunil-chandra16/testrepo09,,,,0,0,0,no strong category keywords
+2026-06-21,schancara1593/xlpxgz,29,uncategorized,0.000,19.445,0.000,3.250,97.9834,0.0,,https://github.com/schancara1593/xlpxgz,,,,0,0,0,no strong category keywords
+2026-06-21,jioglidio/ukxqjc,30,uncategorized,0.000,19.432,0.000,3.250,97.7727,0.0,,https://github.com/jioglidio/ukxqjc,,,,0,0,0,no strong category keywords
+2026-06-21,seamumdigiall/uogpck,31,uncategorized,0.000,19.419,0.000,3.250,97.562,0.0,,https://github.com/seamumdigiall/uogpck,,,,0,0,0,no strong category keywords
+2026-06-21,unimifoc/vfirkn,32,uncategorized,0.000,19.406,0.000,3.250,97.3513,0.0,,https://github.com/unimifoc/vfirkn,,,,0,0,0,no strong category keywords
+2026-06-21,45478942sssds/xincku,33,personal_content_noise,0.781,11.882,0.000,6.250,96.9481,20.9,,,,,,,,,noise indicators: metadata_error:not_found
+2026-06-21,terzgz/ghokzn,34,uncategorized,0.000,19.342,0.000,3.250,96.2979,0.0,,https://github.com/terzgz/ghokzn,,,,0,0,0,no strong category keywords
+2026-06-21,ygg2027/khglol,35,uncategorized,0.000,19.304,0.000,3.250,95.6943,13.8,,https://github.com/ygg2027/khglol,,,,0,0,0,no strong category keywords
+2026-06-21,ablen-anderson/oiorkd,36,uncategorized,0.000,19.250,0.000,3.250,94.8231,0.0,,https://github.com/ablen-anderson/oiorkd,,,,0,0,0,no strong category keywords
+2026-06-21,flax20cap/frurfyfrtuh,37,uncategorized,0.000,19.224,0.000,3.250,94.4017,45.4,,https://github.com/flax20cap/frurfyfrtuh,,,,0,0,0,no strong category keywords
+2026-06-21,InfernusScripts/Server-Storage,38,uncategorized,0.000,18.531,0.000,3.500,93.3385,18.1,,https://github.com/InfernusScripts/Server-Storage,just a test buddy,,,0,0,0,no strong category keywords
+2026-06-21,ygg2026/sqfdqr,39,uncategorized,0.000,19.053,0.000,3.250,91.7241,15.0,,https://github.com/ygg2026/sqfdqr,,,,0,0,0,no strong category keywords
+2026-06-21,mvrespyj/dvvagb,40,uncategorized,0.000,19.049,0.000,3.250,91.6628,0.0,,https://github.com/mvrespyj/dvvagb,,,,0,0,0,no strong category keywords
+2026-06-21,xludcucnun53/RWGF,41,uncategorized,0.000,18.658,0.000,3.250,85.8249,15.0,,https://github.com/xludcucnun53/RWGF,,,,0,0,0,no strong category keywords
+2026-06-21,pepijn2/test,42,personal_content_noise,0.562,16.111,0.732,4.500,83.6226,17.4,,https://github.com/pepijn2/test,tes,,,1,0,0,noise indicators: test
+2026-06-21,aeek7mzxwq54/ERERR,43,uncategorized,0.000,18.219,0.000,3.250,79.7007,13.0,,https://github.com/aeek7mzxwq54/ERERR,,,,0,0,0,no strong category keywords
+2026-06-21,openclaw/clawsweeper-state,44,developer_tools,0.333,25.130,7.025,3.250,78.1759,12.5,keep,https://github.com/openclaw/clawsweeper-state,,JavaScript,,14,13,1,"matched: tool, plugin"
+2026-06-21,Moole123/tmpPub,45,uncategorized,0.000,17.811,0.000,3.250,74.3865,33.1,,https://github.com/Moole123/tmpPub,,,,0,0,0,no strong category keywords
+2026-06-21,Andrejewild/myvpn,46,uncategorized,0.000,23.705,3.631,2.250,71.4712,16.3,,https://github.com/Andrejewild/myvpn,Storage for VPN configurations,,,4,0,0,no strong category keywords
+2026-06-21,broryda/broryda.github.io,47,personal_content_noise,1.000,4.980,0.000,8.250,70.3407,9.0,,https://github.com/broryda/broryda.github.io,,JavaScript,,0,0,0,noise indicators: github.io
+2026-06-21,qwwfw43leu30/DFDD,48,uncategorized,0.000,17.421,0.000,3.250,69.6464,20.4,,https://github.com/qwwfw43leu30/DFDD,,,,0,0,0,no strong category keywords
+2026-06-21,adem4321/wa_image,49,uncategorized,0.000,17.410,0.000,3.250,69.5211,13.8,,https://github.com/adem4321/wa_image,,,,0,0,2,no strong category keywords
+2026-06-21,stewartaddie/david,50,uncategorized,0.000,17.304,0.000,3.250,68.2766,0.0,,https://github.com/stewartaddie/david,,HTML,,0,0,0,no strong category keywords
