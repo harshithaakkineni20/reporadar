@@ -349,3 +349,53 @@ run_date,repo_name,rank,category,category_confidence,discovery_score,quality_sco
 2026-06-28,InfernusScripts/Server-Storage,48,uncategorized,0.000,16.376,0.000,3.500,64.8698,18.0,,https://github.com/InfernusScripts/Server-Storage,just a test buddy,,,0,0,0,no strong category keywords
 2026-06-28,sohanahamad0066-ctrl/temp,49,personal_content_noise,0.594,13.150,0.000,4.750,63.7685,15.8,,https://github.com/sohanahamad0066-ctrl/temp,,,,0,0,0,noise indicators: temp
 2026-06-28,ATIKNA/cal.com,50,personal_content_noise,0.562,14.893,1.400,4.500,60.8007,10.6,,https://github.com/ATIKNA/cal.com,Scheduling infrastructure for absolutely everyone.,TypeScript,,0,0,0,noise indicators: img
+2026-07-05,bolividob/bibkreyol-comments-data,1,personal_content_noise,0.562,24.440,1.356,4.500,304.6576,57.1,,https://github.com/bolividob/bibkreyol-comments-data,Bib Kreyol daily comments data store,,,1,1,1,"noise indicators: img, pages"
+2026-07-05,gaston1799/RobloxLua,2,creative_games_media,1.000,25.444,0.342,3.250,253.1135,44.9,,https://github.com/gaston1799/RobloxLua,,Lua,,2,1,5,matched: roblox
+2026-07-05,trieu1082/db-backup,3,uncategorized,0.000,24.979,0.000,3.250,247.9722,1.5,,https://github.com/trieu1082/db-backup,,,,0,0,0,no strong category keywords
+2026-07-05,Fadil123-hah/DILZXJASHER,4,uncategorized,0.000,27.203,0.200,2.250,228.9666,50.6,,https://github.com/Fadil123-hah/DILZXJASHER,DILZX GANTENG,,,0,0,0,no strong category keywords
+2026-07-05,popobbs2/toto-images2335,5,uncategorized,0.000,23.897,0.000,3.250,206.9006,0.0,,https://github.com/popobbs2/toto-images2335,,,,0,0,0,no strong category keywords
+2026-07-05,Sepevalle/SoloQ-Cerditos,6,uncategorized,0.000,23.064,0.000,3.250,179.9413,42.2,,https://github.com/Sepevalle/SoloQ-Cerditos,,HTML,,0,0,0,no strong category keywords
+2026-07-05,alnxud1yxk41/sdf,7,uncategorized,0.000,22.301,0.000,3.250,158.3444,35.1,,https://github.com/alnxud1yxk41/sdf,,,,0,0,0,no strong category keywords
+2026-07-05,ccenr6p7al88/ddssd,8,uncategorized,0.000,22.107,0.000,3.250,153.2555,32.2,,https://github.com/ccenr6p7al88/ddssd,,,,0,0,0,no strong category keywords
+2026-07-05,mibl2ltejh60/sdfsd,9,uncategorized,0.000,21.941,0.000,3.250,149.0446,32.0,,https://github.com/mibl2ltejh60/sdfsd,,,,0,0,0,no strong category keywords
+2026-07-05,imczzfeq7w80/rteertrt,10,uncategorized,0.000,21.605,0.000,3.250,140.8865,30.9,,https://github.com/imczzfeq7w80/rteertrt,,,,0,0,0,no strong category keywords
+2026-07-05,escapingwork/teenagerspopulation,11,apps_products,1.000,24.233,0.200,2.250,139.1861,29.6,,https://github.com/escapingwork/teenagerspopulation,JSON for my Teenagers Population project. Web sockets are expensive.,,,0,0,1,matched: web
+2026-07-05,zbubelna/dsd,12,uncategorized,0.000,21.235,0.000,3.250,132.4022,19.4,,https://github.com/zbubelna/dsd,,,,0,0,0,no strong category keywords
+2026-07-05,CodeHub-Clients/CodeHub_Licenses,13,uncategorized,0.000,21.084,0.000,3.250,129.0851,27.3,,https://github.com/CodeHub-Clients/CodeHub_Licenses,,,,0,1,2,no strong category keywords
+2026-07-05,silahosting/Backup,14,personal_content_noise,0.594,16.962,0.000,4.750,121.2571,26.4,,https://github.com/silahosting/Backup,,JavaScript,,0,0,0,noise indicators: backup
+2026-07-05,vsaggoa/sd,15,uncategorized,0.000,20.385,0.000,3.250,114.7782,28.0,,https://github.com/vsaggoa/sd,,,,0,0,0,no strong category keywords
+2026-07-05,C22Tech/C22-Data-CIC,16,ai_ml_data,0.654,24.467,1.700,2.250,112.5255,23.2,,https://github.com/C22Tech/C22-Data-CIC,Repository storing the C22InfoCenter JSON to feed Claude.,,,0,0,0,matched: claude
+2026-07-05,uchfilo/tpanip,17,uncategorized,0.000,19.778,0.000,3.250,103.6393,4.4,,https://github.com/uchfilo/tpanip,,,,0,0,0,no strong category keywords
+2026-07-05,lamagetolice3/uxrgkf,18,uncategorized,0.000,19.721,0.000,3.250,102.6441,4.1,,https://github.com/lamagetolice3/uxrgkf,,,,0,0,0,no strong category keywords
+2026-07-05,minewhiyar1985/wwaweq,19,uncategorized,0.000,19.647,0.000,3.250,101.3738,4.3,,https://github.com/minewhiyar1985/wwaweq,,,,0,0,0,no strong category keywords
+2026-07-05,Comme93/n-plus-bot,20,uncategorized,0.000,19.556,0.000,3.250,99.8424,19.8,,https://github.com/Comme93/n-plus-bot,,JavaScript,,0,0,0,no strong category keywords
+2026-07-05,ThatOneFrench/Yugioh-Artwork,21,uncategorized,0.000,19.498,0.000,3.250,98.874,85.1,,https://github.com/ThatOneFrench/Yugioh-Artwork,,,,0,0,0,no strong category keywords
+2026-07-05,13bkz/rafkyj,22,uncategorized,0.000,19.442,0.000,3.250,97.9406,4.3,,https://github.com/13bkz/rafkyj,,,,0,0,0,no strong category keywords
+2026-07-05,quisio1976/xnxrsm,23,uncategorized,0.000,19.369,0.000,3.250,96.7494,0.3,,https://github.com/quisio1976/xnxrsm,,,,0,0,0,no strong category keywords
+2026-07-05,radd88/renokl,24,uncategorized,0.000,19.345,0.000,3.250,96.3525,4.3,,https://github.com/radd88/renokl,,,,0,0,0,no strong category keywords
+2026-07-05,chenxi750328ai/agent-jianghu,25,personal_content_noise,0.562,24.133,7.983,4.500,95.2263,19.2,,https://github.com/chenxi750328ai/agent-jianghu,agent江湖 - 多Agent协作平台,Python,multi-agent,6,3,7,"noise indicators: github.io, pages"
+2026-07-05,philtenn/sjmupn,26,uncategorized,0.000,19.209,0.000,3.250,94.173,0.2,,https://github.com/philtenn/sjmupn,,,,0,0,0,no strong category keywords
+2026-07-05,lock316raymone/obboie,27,uncategorized,0.000,19.198,0.000,3.250,93.9923,0.3,,https://github.com/lock316raymone/obboie,,,,0,0,0,no strong category keywords
+2026-07-05,jeaktma/jpjlac,28,uncategorized,0.000,19.189,0.000,3.250,93.8518,0.4,,https://github.com/jeaktma/jpjlac,,,,0,0,0,no strong category keywords
+2026-07-05,doschuks/uzslrm,29,uncategorized,0.000,19.154,0.000,3.250,93.2953,4.6,,https://github.com/doschuks/uzslrm,,,,0,0,0,no strong category keywords
+2026-07-05,jxby68/rfpjqv,30,uncategorized,0.000,19.135,0.000,3.250,93.0019,0.3,,https://github.com/jxby68/rfpjqv,,,,0,0,0,no strong category keywords
+2026-07-05,hetalbil/nmmnuz,31,uncategorized,0.000,19.133,0.000,3.250,92.9774,0.3,,https://github.com/hetalbil/nmmnuz,,,,0,0,0,no strong category keywords
+2026-07-05,pfabtech/ydhdrz,32,uncategorized,0.000,19.129,0.000,3.250,92.9157,0.4,,https://github.com/pfabtech/ydhdrz,,,,0,0,0,no strong category keywords
+2026-07-05,kharife88/tehjxr,33,uncategorized,0.000,19.124,0.000,3.250,92.8368,0.2,,https://github.com/kharife88/tehjxr,,,,0,0,0,no strong category keywords
+2026-07-05,kocju56/spwovv,34,uncategorized,0.000,19.074,0.000,3.250,92.0569,0.4,,https://github.com/kocju56/spwovv,,,,0,0,0,no strong category keywords
+2026-07-05,ptandovin/exjymo,35,uncategorized,0.000,19.074,0.000,3.250,92.0498,0.2,,https://github.com/ptandovin/exjymo,,,,0,0,0,no strong category keywords
+2026-07-05,arsefamdiera/svpdkr,36,uncategorized,0.000,19.071,0.000,3.250,92.0124,0.3,,https://github.com/arsefamdiera/svpdkr,,,,0,0,0,no strong category keywords
+2026-07-05,rodnar88/wsabva,37,uncategorized,0.000,19.047,0.000,3.250,91.6369,0.3,,https://github.com/rodnar88/wsabva,,,,0,0,0,no strong category keywords
+2026-07-05,lanuqo77/wdebfw,38,uncategorized,0.000,19.045,0.000,3.250,91.6047,0.2,,https://github.com/lanuqo77/wdebfw,,,,0,0,0,no strong category keywords
+2026-07-05,deatoftbowloy/upcqkw,39,uncategorized,0.000,19.037,0.000,3.250,91.4754,0.2,,https://github.com/deatoftbowloy/upcqkw,,,,0,0,0,no strong category keywords
+2026-07-05,ginathik2/lsfgah,40,uncategorized,0.000,19.031,0.000,3.250,91.3945,0.5,,https://github.com/ginathik2/lsfgah,,,,0,0,0,no strong category keywords
+2026-07-05,monkljuthun/fhdwkz,41,uncategorized,0.000,19.017,0.000,3.250,91.1683,0.3,,https://github.com/monkljuthun/fhdwkz,,,,0,0,0,no strong category keywords
+2026-07-05,smrd-suny/aughcw,42,uncategorized,0.000,19.013,0.000,3.250,91.1082,0.2,,https://github.com/smrd-suny/aughcw,,,,0,0,0,no strong category keywords
+2026-07-05,cbrwasher/jaeklm,43,uncategorized,0.000,19.006,0.000,3.250,91.0035,0.3,,https://github.com/cbrwasher/jaeklm,,,,0,0,0,no strong category keywords
+2026-07-05,kwrenmutz/mrrsms,44,uncategorized,0.000,19.003,0.000,3.250,90.9538,0.3,,https://github.com/kwrenmutz/mrrsms,,,,0,0,0,no strong category keywords
+2026-07-05,iorux10887/evlztt,45,uncategorized,0.000,18.986,0.000,3.250,90.7036,0.3,,https://github.com/iorux10887/evlztt,,,,0,0,0,no strong category keywords
+2026-07-05,nekazzos-ab-gand/bgavkr,46,uncategorized,0.000,18.975,0.000,3.250,90.5357,0.2,,https://github.com/nekazzos-ab-gand/bgavkr,,,,0,0,0,no strong category keywords
+2026-07-05,robeibarsh/dqkzhn,47,uncategorized,0.000,18.936,0.000,3.250,89.9295,0.3,,https://github.com/robeibarsh/dqkzhn,,,,0,0,0,no strong category keywords
+2026-07-05,perakarth-mano/qbanac,48,uncategorized,0.000,18.919,0.000,3.250,89.6775,0.3,,https://github.com/perakarth-mano/qbanac,,,,0,0,0,no strong category keywords
+2026-07-05,rakanyai2300j/jipesa,49,uncategorized,0.000,18.905,0.000,3.250,89.4729,0.3,,https://github.com/rakanyai2300j/jipesa,,,,0,0,0,no strong category keywords
+2026-07-05,leotermuhlolivi/bormvq,50,uncategorized,0.000,18.894,0.000,3.250,89.3015,0.4,,https://github.com/leotermuhlolivi/bormvq,,,,0,0,0,no strong category keywords
