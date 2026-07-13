@@ -399,3 +399,53 @@ run_date,repo_name,rank,category,category_confidence,discovery_score,quality_sco
 2026-07-05,perakarth-mano/qbanac,48,uncategorized,0.000,18.919,0.000,3.250,89.6775,0.3,,https://github.com/perakarth-mano/qbanac,,,,0,0,0,no strong category keywords
 2026-07-05,rakanyai2300j/jipesa,49,uncategorized,0.000,18.905,0.000,3.250,89.4729,0.3,,https://github.com/rakanyai2300j/jipesa,,,,0,0,0,no strong category keywords
 2026-07-05,leotermuhlolivi/bormvq,50,uncategorized,0.000,18.894,0.000,3.250,89.3015,0.4,,https://github.com/leotermuhlolivi/bormvq,,,,0,0,0,no strong category keywords
+2026-07-12,docker-hardened-images/log,1,infra_devops,1.000,19.972,2.932,4.250,99.5793,12.3,,https://github.com/docker-hardened-images/log,Log of references (tag > digest) for Docker Hardened Images,Roff,,1,0,6579,matched: docker
+2026-07-12,Nexussyn/ai-growth-platform,2,ai_ml_data,0.670,27.598,7.591,2.250,70.6635,33.6,,https://github.com/Nexussyn/ai-growth-platform,"Autonomous AI Growth Platform — multi-agent revenue engine with USDC payments, viral referral system, and self-healing orchestration",TypeScript,,2,9,8,"matched: ai, agent, openai, anthropic, claude"
+2026-07-12,Qianshiwan/https-github.com-heygen-com-hyperframes,3,creative_games_media,0.261,19.032,1.600,3.000,62.7769,0.0,,https://github.com/Qianshiwan/https-github.com-heygen-com-hyperframes,,HTML,,0,0,0,"matched: music, audio, video"
+2026-07-12,gonsannyk/ewhhjl,4,uncategorized,0.000,16.241,0.000,3.250,57.0289,0.0,,https://github.com/gonsannyk/ewhhjl,,,,0,0,0,no strong category keywords
+2026-07-12,realkrxgod/foundsomeone,5,uncategorized,0.000,19.774,0.100,1.750,54.0497,3.4,,https://github.com/realkrxgod/foundsomeone,,,,0,0,0,no strong category keywords
+2026-07-12,ikekako/bhfhg,6,uncategorized,0.000,15.090,0.000,3.250,46.9012,11.5,,https://github.com/ikekako/bhfhg,,,,0,0,0,no strong category keywords
+2026-07-12,denanker/fgbvbf,7,uncategorized,0.000,14.626,0.000,3.250,43.3407,11.2,,https://github.com/denanker/fgbvbf,,,,0,0,0,no strong category keywords
+2026-07-12,ThatOneFrench/Yugioh-Artwork,8,uncategorized,0.000,14.582,0.000,3.250,43.0166,24.7,,https://github.com/ThatOneFrench/Yugioh-Artwork,,,,0,0,0,no strong category keywords
+2026-07-12,Sepevalle/SoloQ-Cerditos,9,uncategorized,0.000,14.384,0.000,3.250,41.5815,14.5,,https://github.com/Sepevalle/SoloQ-Cerditos,,HTML,,0,0,0,no strong category keywords
+2026-07-12,pasocyemar/xjictq,10,personal_content_noise,0.781,6.411,0.000,6.250,38.3547,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,hughofish/vcikxu,11,personal_content_noise,0.781,6.410,0.000,6.250,38.3502,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,hstern01/dlmfqp,12,personal_content_noise,0.781,6.395,0.000,6.250,38.2532,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,seal2tail/lvtvvo,13,personal_content_noise,0.781,6.365,0.000,6.250,38.0545,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,bolividob/bibkreyol-comments-data,14,personal_content_noise,0.562,12.083,1.356,4.500,37.971,10.2,,https://github.com/bolividob/bibkreyol-comments-data,Bib Kreyol daily comments data store,,,1,1,1,"noise indicators: img, pages"
+2026-07-12,ianmvork/zwdxge,15,personal_content_noise,0.781,6.307,0.000,6.250,37.68,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,alphaqhftt/bnwjnf,16,personal_content_noise,0.781,6.306,0.000,6.250,37.6767,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,johnrabhum/iocgpg,17,personal_content_noise,0.781,6.292,0.000,6.250,37.5844,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,markinie2/dqpyow,18,personal_content_noise,0.781,6.281,0.000,6.250,37.5139,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,honeycare5/ruvaoz,19,personal_content_noise,0.781,6.277,0.000,6.250,37.4854,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,theabsproc/pqldwo,20,personal_content_noise,0.781,6.276,0.000,6.250,37.4828,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,donng-depl/vrkimw,21,personal_content_noise,0.781,6.263,0.000,6.250,37.3989,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,modem2brea/keofxv,22,personal_content_noise,0.781,6.249,0.000,6.250,37.3068,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,lucalentin/aujhjo,23,personal_content_noise,0.781,6.232,0.000,6.250,37.2021,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,kamilbass/xqdvgr,24,personal_content_noise,0.781,6.156,0.000,6.250,36.7203,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,grocklobst/qlrxpd,25,personal_content_noise,0.781,6.127,0.000,6.250,36.5368,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,redmanaje/unfuyr,26,personal_content_noise,0.781,6.067,0.000,6.250,36.162,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,wuejoan/zhjcgu,27,personal_content_noise,0.781,6.050,0.000,6.250,36.0584,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,krabbosh/xszvnr,28,personal_content_noise,0.781,6.037,0.000,6.250,35.9756,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,asifpan/ursatm,29,personal_content_noise,0.781,6.019,0.000,6.250,35.87,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,moliphaice/vkbysq,30,personal_content_noise,0.781,6.003,0.000,6.250,35.7702,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,sliundesrich/cmczoy,31,personal_content_noise,0.781,5.990,0.000,6.250,35.689,1.1,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,shuhidraj/vydjvz,32,personal_content_noise,0.781,5.972,0.000,6.250,35.5808,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,redsapps/vfnqfc,33,personal_content_noise,0.781,5.959,0.000,6.250,35.5031,2.2,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,reekgranie/hcdhig,34,personal_content_noise,0.781,5.957,0.000,6.250,35.4907,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,trupsnette/bhislp,35,personal_content_noise,0.781,5.957,0.000,6.250,35.4869,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,xdannyspar/qlmtdk,36,personal_content_noise,0.781,5.943,0.000,6.250,35.4055,1.5,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,rufomacu/axtibw,37,personal_content_noise,0.781,5.943,0.000,6.250,35.4024,1.9,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,activ93th/hjprqx,38,personal_content_noise,0.781,5.928,0.000,6.250,35.3133,1.9,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,xxtvw3r/owdphq,39,personal_content_noise,0.781,5.926,0.000,6.250,35.3013,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,arcellvan/kbuoud,40,personal_content_noise,0.781,5.925,0.000,6.250,35.2946,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,ijysetibee/lgozod,41,personal_content_noise,0.781,5.912,0.000,6.250,35.2175,2.2,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,qfeto/elwdov,42,personal_content_noise,0.781,5.894,0.000,6.250,35.1093,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,stephencig/jbpvfx,43,personal_content_noise,0.781,5.864,0.000,6.250,34.9277,1.8,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,landercoll/qfieqt,44,personal_content_noise,0.781,5.848,0.000,6.250,34.8332,1.7,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,gulga11/aeonnz,45,personal_content_noise,0.781,5.846,0.000,6.250,34.8188,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,iron3banan/twcwnu,46,personal_content_noise,0.781,5.816,0.000,6.250,34.6435,2.2,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,applebrick/butjhy,47,personal_content_noise,0.781,5.816,0.000,6.250,34.6424,2.2,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,jonahchaocheuje/caszop,48,personal_content_noise,0.781,5.800,0.000,6.250,34.5475,2.5,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,cheese2jum/rhlbkg,49,personal_content_noise,0.781,5.798,0.000,6.250,34.5339,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-12,pttis/qrxprj,50,personal_content_noise,0.781,5.798,0.000,6.250,34.5333,0.0,,,,,,,,,noise indicators: metadata_error:not_found
