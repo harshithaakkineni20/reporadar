@@ -449,3 +449,53 @@ run_date,repo_name,rank,category,category_confidence,discovery_score,quality_sco
 2026-07-12,jonahchaocheuje/caszop,48,personal_content_noise,0.781,5.800,0.000,6.250,34.5475,2.5,,,,,,,,,noise indicators: metadata_error:not_found
 2026-07-12,cheese2jum/rhlbkg,49,personal_content_noise,0.781,5.798,0.000,6.250,34.5339,0.0,,,,,,,,,noise indicators: metadata_error:not_found
 2026-07-12,pttis/qrxprj,50,personal_content_noise,0.781,5.798,0.000,6.250,34.5333,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-07-19,NovosadovO/morning-report,1,uncategorized,0.000,26.036,2.700,2.250,123.8084,6.7,,https://github.com/NovosadovO/morning-report,Daily morning market report,Python,,0,0,0,no strong category keywords
+2026-07-19,bolividob/bibkreyol-comments-data,2,personal_content_noise,0.562,18.952,1.356,4.500,121.4436,34.6,,https://github.com/bolividob/bibkreyol-comments-data,Bib Kreyol daily comments data store,,,1,1,1,"noise indicators: img, pages"
+2026-07-19,KaizenRose/firecrawl,3,personal_content_noise,0.781,13.051,0.000,6.250,118.0153,0.0,,https://github.com/KaizenRose/firecrawl,,TypeScript,,0,0,0,"noise indicators: img, test, pages, blog"
+2026-07-19,chbcbvcbb-oss/Nextjs,4,apps_products,0.362,22.436,1.600,3.000,111.4673,12.6,,https://github.com/chbcbvcbb-oss/Nextjs,,JavaScript,,0,0,0,"matched: nextjs, web, react"
+2026-07-19,gxjishou/my-img-bed3,5,personal_content_noise,0.844,11.310,0.000,6.750,108.6815,19.2,,https://github.com/gxjishou/my-img-bed3,,,,0,0,0,noise indicators: img-bed
+2026-07-19,taynotfound/open-stacks-library,6,libraries_frameworks,0.719,25.154,2.700,2.250,106.7522,9.8,,https://github.com/taynotfound/open-stacks-library,Mirror of libcom.org/book — anarchist & communist library archive (files CC/anti-copyright per libcom),HTML,,0,0,0,matched: library
+2026-07-19,ThatOneFrench/Yugioh-Artwork,7,uncategorized,0.000,19.543,0.000,3.250,99.6109,40.1,,https://github.com/ThatOneFrench/Yugioh-Artwork,,,,0,0,0,no strong category keywords
+2026-07-19,Sepevalle/SoloQ-Cerditos,8,uncategorized,0.000,18.800,0.000,3.250,87.9056,21.3,,https://github.com/Sepevalle/SoloQ-Cerditos,,HTML,,0,0,0,no strong category keywords
+2026-07-19,dfandski/cnzxwa,9,uncategorized,0.000,17.155,0.000,3.250,66.5817,0.0,,https://github.com/dfandski/cnzxwa,,,,0,0,0,no strong category keywords
+2026-07-19,sandiscu/enwqsz,10,uncategorized,0.000,17.128,0.000,3.250,66.2787,0.0,,https://github.com/sandiscu/enwqsz,,,,0,0,0,no strong category keywords
+2026-07-19,CodeHub-Clients/CodeHub_Licenses,11,uncategorized,0.000,17.072,0.000,3.250,65.6559,14.4,,https://github.com/CodeHub-Clients/CodeHub_Licenses,,,,0,1,2,no strong category keywords
+2026-07-19,jiberieng/tuvjbn,12,uncategorized,0.000,17.060,0.000,3.250,65.522,0.0,,https://github.com/jiberieng/tuvjbn,,,,0,0,0,no strong category keywords
+2026-07-19,rasirio/aixpem,13,uncategorized,0.000,17.008,0.000,3.250,64.9439,0.0,,https://github.com/rasirio/aixpem,,,,0,0,0,no strong category keywords
+2026-07-19,phone-xxx/uzhkbt,14,uncategorized,0.000,16.940,0.000,3.250,64.1989,0.0,,https://github.com/phone-xxx/uzhkbt,,,,0,0,0,no strong category keywords
+2026-07-19,KaizenRose/flowise,15,libraries_frameworks,0.261,19.155,1.600,3.000,64.0906,0.0,,https://github.com/KaizenRose/flowise,,TypeScript,,0,0,0,"matched: package, api, npm, module"
+2026-07-19,luban-owes/xwapzn,16,uncategorized,0.000,16.910,0.000,3.250,63.8817,0.0,,https://github.com/luban-owes/xwapzn,,,,0,0,0,no strong category keywords
+2026-07-19,mrshawn-23/hyzbbv,17,uncategorized,0.000,16.878,0.000,3.250,63.537,0.0,,https://github.com/mrshawn-23/hyzbbv,,,,0,0,0,no strong category keywords
+2026-07-19,mpitls/uvfvyj,18,uncategorized,0.000,16.839,0.000,3.250,63.1107,0.0,,https://github.com/mpitls/uvfvyj,,,,0,0,0,no strong category keywords
+2026-07-19,ckiben/chrpns,19,uncategorized,0.000,16.761,0.000,3.250,62.2908,0.0,,https://github.com/ckiben/chrpns,,,,0,0,0,no strong category keywords
+2026-07-19,skytla/uoxhwj,20,uncategorized,0.000,16.750,0.000,3.250,62.1748,0.0,,https://github.com/skytla/uoxhwj,,,,0,0,0,no strong category keywords
+2026-07-19,thefrober/vdpbfq,21,uncategorized,0.000,16.669,0.000,3.250,61.3211,0.0,,https://github.com/thefrober/vdpbfq,,,,0,0,0,no strong category keywords
+2026-07-19,conradyta/qggihs,22,uncategorized,0.000,16.662,0.000,3.250,61.2489,0.0,,https://github.com/conradyta/qggihs,,,,0,0,0,no strong category keywords
+2026-07-19,oparalli/clfdcg,23,uncategorized,0.000,16.645,0.000,3.250,61.0793,0.0,,https://github.com/oparalli/clfdcg,,,,0,0,0,no strong category keywords
+2026-07-19,sochoc-zz/xxrcal,24,uncategorized,0.000,16.616,0.000,3.250,60.7754,0.0,,https://github.com/sochoc-zz/xxrcal,,,,0,0,0,no strong category keywords
+2026-07-19,jlayers93/ezfxus,25,uncategorized,0.000,16.611,0.000,3.250,60.7252,0.0,,https://github.com/jlayers93/ezfxus,,,,0,0,0,no strong category keywords
+2026-07-19,dietherea/lsgssd,26,uncategorized,0.000,16.606,0.000,3.250,60.6714,0.0,,https://github.com/dietherea/lsgssd,,,,0,0,0,no strong category keywords
+2026-07-19,escapingwork/teenagerspopulation,27,apps_products,1.000,19.287,0.200,2.250,60.4797,17.2,,https://github.com/escapingwork/teenagerspopulation,JSON for my Teenagers Population project. Web sockets are expensive.,,,0,0,1,matched: web
+2026-07-19,akikurama/lkxfuo,28,uncategorized,0.000,16.553,0.000,3.250,60.1326,0.0,,https://github.com/akikurama/lkxfuo,,,,0,0,0,no strong category keywords
+2026-07-19,soulison7/nhtylw,29,uncategorized,0.000,16.542,0.000,3.250,60.0137,0.0,,https://github.com/soulison7/nhtylw,,,,0,0,0,no strong category keywords
+2026-07-19,furleon/jpdvnf,30,uncategorized,0.000,16.521,0.000,3.250,59.8061,0.0,,https://github.com/furleon/jpdvnf,,,,0,0,0,no strong category keywords
+2026-07-19,mark-arapo/itsfpa,31,uncategorized,0.000,16.457,0.000,3.250,59.1636,0.0,,https://github.com/mark-arapo/itsfpa,,,,0,0,0,no strong category keywords
+2026-07-19,liz9k/nblqjw,32,uncategorized,0.000,16.424,0.000,3.250,58.8284,0.0,,https://github.com/liz9k/nblqjw,,,,0,0,0,no strong category keywords
+2026-07-19,KaizenRose/supabase,33,ai_ml_data,0.277,18.597,1.600,3.000,58.3129,12.2,,https://github.com/KaizenRose/supabase,,TypeScript,,0,0,0,"matched: ai, vector, embedding"
+2026-07-19,willabok/zabuzr,34,uncategorized,0.000,16.337,0.000,3.250,57.9688,0.0,,https://github.com/willabok/zabuzr,,,,0,0,0,no strong category keywords
+2026-07-19,keanefr/wbhwem,35,uncategorized,0.000,16.331,0.000,3.250,57.9132,0.0,,https://github.com/keanefr/wbhwem,,,,0,0,0,no strong category keywords
+2026-07-19,trazis/vylqlc,36,uncategorized,0.000,16.240,0.000,3.250,57.0185,0.0,,https://github.com/trazis/vylqlc,,,,0,0,0,no strong category keywords
+2026-07-19,zadzakasi/brqnso,37,uncategorized,0.000,16.221,0.000,3.250,56.8417,0.0,,https://github.com/zadzakasi/brqnso,,,,0,0,0,no strong category keywords
+2026-07-19,kevoop8/qyajvu,38,uncategorized,0.000,16.218,0.000,3.250,56.8141,0.0,,https://github.com/kevoop8/qyajvu,,,,0,0,0,no strong category keywords
+2026-07-19,bornbal/fpaurm,39,uncategorized,0.000,16.168,0.000,3.250,56.3286,0.0,,https://github.com/bornbal/fpaurm,,,,0,0,0,no strong category keywords
+2026-07-19,glahe/efpjnc,40,uncategorized,0.000,16.159,0.000,3.250,56.2432,0.0,,https://github.com/glahe/efpjnc,,,,0,0,0,no strong category keywords
+2026-07-19,mytresv/ryhfkj,41,uncategorized,0.000,16.150,0.000,3.250,56.1594,0.0,,https://github.com/mytresv/ryhfkj,,,,0,0,0,no strong category keywords
+2026-07-19,silahosting/Backup,42,personal_content_noise,0.594,12.302,0.000,4.750,55.2364,12.2,,https://github.com/silahosting/Backup,,JavaScript,,0,0,0,noise indicators: backup
+2026-07-19,fnick2000/beijing,43,uncategorized,0.000,15.986,0.000,3.250,54.6189,0.0,,https://github.com/fnick2000/beijing,,,,0,0,0,no strong category keywords
+2026-07-19,ehnolo/ycpilc,44,uncategorized,0.000,15.946,0.000,3.250,54.2483,0.0,,https://github.com/ehnolo/ycpilc,,,,0,0,0,no strong category keywords
+2026-07-19,ngmambooo/wkzsyr,45,uncategorized,0.000,15.862,0.000,3.250,53.4815,5.3,,https://github.com/ngmambooo/wkzsyr,,,,0,0,0,no strong category keywords
+2026-07-19,C22Tech/C22-Data-CIC,46,ai_ml_data,0.654,19.843,1.700,2.250,51.5244,10.3,,https://github.com/C22Tech/C22-Data-CIC,Repository storing the C22InfoCenter JSON to feed Claude.,,,0,0,0,matched: claude
+2026-07-19,sermju/shenzhen,47,uncategorized,0.000,15.604,0.000,3.250,51.1849,0.0,,https://github.com/sermju/shenzhen,,,,0,0,0,no strong category keywords
+2026-07-19,karlsmeed/shipin,48,uncategorized,0.000,15.584,0.000,3.250,51.0168,0.0,,https://github.com/karlsmeed/shipin,,,,0,0,0,no strong category keywords
+2026-07-19,dmccull25/beijing,49,uncategorized,0.000,15.564,0.000,3.250,50.836,0.0,,https://github.com/dmccull25/beijing,,,,0,0,0,no strong category keywords
+2026-07-19,lowisma/ibbuvz,50,uncategorized,0.000,15.379,0.000,3.250,49.2626,9.0,,https://github.com/lowisma/ibbuvz,,,,0,0,0,no strong category keywords
