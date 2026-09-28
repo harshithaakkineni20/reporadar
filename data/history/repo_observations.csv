@@ -949,3 +949,53 @@ run_date,repo_name,rank,category,category_confidence,discovery_score,quality_sco
 2026-09-20,dhernalmarya/hoaenvr,48,uncategorized,0.000,18.100,0.000,3.250,78.1118,5.6,,https://github.com/dhernalmarya/hoaenvr,,,,0,0,0,no strong category keywords
 2026-09-20,electricbyslo/repo-qm4h6vvg,49,uncategorized,0.000,18.073,0.000,3.250,77.7553,13.3,,https://github.com/electricbyslo/repo-qm4h6vvg,,,,0,0,0,no strong category keywords
 2026-09-20,bridgeswantug/repo-iak6f4ei,50,uncategorized,0.000,18.066,0.000,3.250,77.6684,13.9,,https://github.com/bridgeswantug/repo-iak6f4ei,,,,0,0,0,no strong category keywords
+2026-09-27,R3G1ST/VPNProbe,1,infra_devops,0.278,29.492,3.364,3.500,333.6268,62.6,,https://github.com/R3G1ST/VPNProbe,VPN subscription checker + provider audit — WPF .NET 8,C#,,3,0,0,matched: cd
+2026-09-27,cemilsitesi/yeter,2,uncategorized,0.000,24.466,0.000,3.250,227.5722,43.7,,https://github.com/cemilsitesi/yeter,,HTML,,0,0,0,no strong category keywords
+2026-09-27,kramergian8-crypto/120k-live,3,uncategorized,0.000,27.442,1.700,2.250,185.3819,34.6,,https://github.com/kramergian8-crypto/120k-live,Live-Daten fuer 120k.ch waehrend des Laufs,,,0,0,0,no strong category keywords
+2026-09-27,sam132281/mixdcpj,4,uncategorized,0.000,23.119,0.000,3.250,181.6051,31.9,,https://github.com/sam132281/mixdcpj,,,,0,0,0,no strong category keywords
+2026-09-27,mark-stc/knshbou,5,uncategorized,0.000,22.996,0.000,3.250,177.9134,31.8,,https://github.com/mark-stc/knshbou,,,,0,0,0,no strong category keywords
+2026-09-27,Mhhickma/Dashboard,6,personal_content_noise,0.656,17.960,0.000,5.250,176.8245,34.9,,https://github.com/Mhhickma/Dashboard,,Python,,1,0,0,noise indicators: github.io
+2026-09-27,xingtingxu/ivldvts,7,uncategorized,0.000,22.712,0.000,3.250,169.6235,29.0,,https://github.com/xingtingxu/ivldvts,,,,0,0,0,no strong category keywords
+2026-09-27,chromium-full-mirror/external_github.com_google-ai-edge_LiteRT,8,ai_ml_data,0.435,24.385,1.600,3.000,154.6353,0.0,,https://github.com/chromium-full-mirror/external_github.com_google-ai-edge_LiteRT,,C++,,0,0,0,"matched: ai, ml, model, pytorch, tensorflow"
+2026-09-27,zidaan11223344-coder/Talkin4,9,uncategorized,0.000,24.804,0.200,2.250,153.1847,30.4,,https://github.com/zidaan11223344-coder/Talkin4,قاعده بيانات تالكين شات,,,0,0,0,no strong category keywords
+2026-09-27,MaxHalford/bike-sharing-history,10,developer_tools,0.333,26.762,9.078,4.500,123.2632,23.2,,https://github.com/MaxHalford/bike-sharing-history,🚲 Git scraping for bike sharing APIs,Python,bike-sharing;gbfs;git-scraping,39,6,0,matched: build
+2026-09-27,tantulway/sfqaomk,11,personal_content_noise,0.781,13.184,0.000,6.250,120.6902,0.7,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,jtj080808/kfvvvaw,12,personal_content_noise,0.781,13.126,0.000,6.250,119.5132,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,sxi032/fceirvr,13,personal_content_noise,0.781,12.761,0.000,6.250,112.4098,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,charletsophtain/mvlddii,14,personal_content_noise,0.781,12.745,0.000,6.250,112.1137,3.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,chriskv-dani/jsrrdid,15,personal_content_noise,0.781,12.744,0.000,6.250,112.0888,1.3,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,nipayastardel/pekosxb,16,personal_content_noise,0.781,12.681,0.000,6.250,110.9048,0.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,tulfchameetsappi/riqrrvr,17,personal_content_noise,0.781,12.655,0.000,6.250,110.4187,1.0,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,neusfox/azbsemq,18,personal_content_noise,0.781,12.604,0.000,6.250,109.4821,1.5,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,ugmoddev/noti-api-server,19,infra_devops,0.361,20.093,0.000,3.250,109.2826,19.4,,https://github.com/ugmoddev/noti-api-server,,CSS,,0,0,0,"matched: cd, deploy, monitoring"
+2026-09-27,juni-coet/hhnlcay,20,personal_content_noise,0.781,12.562,0.000,6.250,108.7178,0.7,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,exo-clipper/tbhjustamcuserhunter,21,uncategorized,0.000,20.045,0.000,3.250,108.4034,15.2,,https://github.com/exo-clipper/tbhjustamcuserhunter,,Python,,0,0,0,no strong category keywords
+2026-09-27,andywstarev/wraucbn,22,personal_content_noise,0.781,12.387,0.000,6.250,105.551,1.6,,,,,,,,,noise indicators: metadata_error:not_found
+2026-09-27,CodeHub-Clients/CodeHub_Licenses,23,uncategorized,0.000,19.840,0.000,3.250,104.7305,20.1,,https://github.com/CodeHub-Clients/CodeHub_Licenses,,,,0,1,2,no strong category keywords
+2026-09-27,dlaryan/dl001,24,uncategorized,0.000,19.567,0.000,3.250,100.0135,32.7,,https://github.com/dlaryan/dl001,,HTML,,0,0,0,no strong category keywords
+2026-09-27,wireofstan/ibndzjr,25,uncategorized,0.000,18.565,0.000,3.250,84.484,0.0,,https://github.com/wireofstan/ibndzjr,,,,0,0,0,no strong category keywords
+2026-09-27,pista10gur/uzetjyu,26,uncategorized,0.000,18.546,0.000,3.250,84.2111,0.0,,https://github.com/pista10gur/uzetjyu,,,,0,0,0,no strong category keywords
+2026-09-27,ohmoriolevacuum/repo-320sjyks,27,uncategorized,0.000,18.544,0.000,3.250,84.1885,12.2,,https://github.com/ohmoriolevacuum/repo-320sjyks,,,,0,0,1,no strong category keywords
+2026-09-27,Yevheniiiiii/autowork-external-projects,28,uncategorized,0.000,24.532,3.532,2.250,83.5602,16.2,,https://github.com/Yevheniiiiii/autowork-external-projects,AutoWork external paid project discovery,Python,,1,0,0,no strong category keywords
+2026-09-27,millitellerstrut/repo-raurg1jk,29,uncategorized,0.000,18.361,0.000,3.250,81.6326,11.5,,https://github.com/millitellerstrut/repo-raurg1jk,,,,0,0,1,no strong category keywords
+2026-09-27,michail-h/rwoxmbk,30,uncategorized,0.000,18.306,0.000,3.250,80.8703,0.0,,https://github.com/michail-h/rwoxmbk,,,,0,0,0,no strong category keywords
+2026-09-27,minithirol/ljukmid,31,uncategorized,0.000,18.286,0.000,3.250,80.5991,0.0,,https://github.com/minithirol/ljukmid,,,,0,0,0,no strong category keywords
+2026-09-27,bonnusha87/ebgcyuc,32,uncategorized,0.000,18.265,0.000,3.250,80.3206,0.0,,https://github.com/bonnusha87/ebgcyuc,,,,0,0,0,no strong category keywords
+2026-09-27,jaderl-hem/truxzoq,33,uncategorized,0.000,18.211,0.000,3.250,79.5824,0.0,,https://github.com/jaderl-hem/truxzoq,,,,0,0,0,no strong category keywords
+2026-09-27,ferderemes/utxthwy,34,uncategorized,0.000,18.197,0.000,3.250,79.4054,0.0,,https://github.com/ferderemes/utxthwy,,,,0,0,0,no strong category keywords
+2026-09-27,ep3l31s/yxvrhen,35,uncategorized,0.000,18.191,0.000,3.250,79.3126,0.0,,https://github.com/ep3l31s/yxvrhen,,,,0,0,0,no strong category keywords
+2026-09-27,xulfo/oxide-presence,36,uncategorized,0.000,21.868,1.200,2.250,79.0082,15.5,,https://github.com/xulfo/oxide-presence,Oxide HUB presence + chat server,JavaScript,,0,0,0,no strong category keywords
+2026-09-27,mikeelliso/fljmiln,37,uncategorized,0.000,18.163,0.000,3.250,78.9408,0.0,,https://github.com/mikeelliso/fljmiln,,,,0,0,0,no strong category keywords
+2026-09-27,icfoxkara/kvgqmcs,38,uncategorized,0.000,18.100,0.000,3.250,78.116,0.0,,https://github.com/icfoxkara/kvgqmcs,,,,0,0,0,no strong category keywords
+2026-09-27,Dividemestar/repo-fso64pot,39,uncategorized,0.000,18.086,0.000,3.250,77.9193,11.1,,https://github.com/Dividemestar/repo-fso64pot,,,,0,0,1,no strong category keywords
+2026-09-27,winkaco/nylbkmo,40,uncategorized,0.000,18.072,0.000,3.250,77.7381,0.0,,https://github.com/winkaco/nylbkmo,,,,0,0,0,no strong category keywords
+2026-09-27,brookdemolisherprime/repo-ek0173ju,41,uncategorized,0.000,18.064,0.000,3.250,77.642,12.1,,https://github.com/brookdemolisherprime/repo-ek0173ju,,,,0,0,1,no strong category keywords
+2026-09-27,mondaymole/ixoxhdf,42,uncategorized,0.000,18.032,0.000,3.250,77.2174,0.0,,https://github.com/mondaymole/ixoxhdf,,,,0,0,0,no strong category keywords
+2026-09-27,kiis665/fjokgpk,43,uncategorized,0.000,18.012,0.000,3.250,76.9586,0.0,,https://github.com/kiis665/fjokgpk,,,,0,0,0,no strong category keywords
+2026-09-27,CongressmanDivide/repo-9ln0ae2s,44,uncategorized,0.000,17.931,0.000,3.250,75.9111,10.2,,https://github.com/CongressmanDivide/repo-9ln0ae2s,,,,0,0,1,no strong category keywords
+2026-09-27,RamInvestigatorTell/repo-jr6fxek4,45,uncategorized,0.000,17.929,0.000,3.250,75.8913,10.1,,https://github.com/RamInvestigatorTell/repo-jr6fxek4,,,,0,0,1,no strong category keywords
+2026-09-27,FiremanManor/repo-y9bcgmtq,46,uncategorized,0.000,17.908,0.000,3.250,75.6158,11.2,,https://github.com/FiremanManor/repo-y9bcgmtq,,,,0,0,0,no strong category keywords
+2026-09-27,amarolcarl/tknjkzh,47,uncategorized,0.000,17.906,0.000,3.250,75.5898,0.0,,https://github.com/amarolcarl/tknjkzh,,,,0,0,0,no strong category keywords
+2026-09-27,groundsupportfence/repo-9fjwesrg,48,uncategorized,0.000,17.904,0.000,3.250,75.5617,14.6,,https://github.com/groundsupportfence/repo-9fjwesrg,,,,0,0,1,no strong category keywords
+2026-09-27,DelegateDrag/repo-n0zvhkgx,49,uncategorized,0.000,17.888,0.000,3.250,75.3673,12.4,,https://github.com/DelegateDrag/repo-n0zvhkgx,,,,0,0,1,no strong category keywords
+2026-09-27,ghoststoneeliminate/repo-mal9tob6,50,uncategorized,0.000,17.884,0.000,3.250,75.3168,11.1,,https://github.com/ghoststoneeliminate/repo-mal9tob6,,,,0,0,0,no strong category keywords
